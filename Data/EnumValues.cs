@@ -1,16 +1,21 @@
 ﻿#nullable enable 
 
 using System.Collections.Generic;
+using System.Linq;
 using static PW.Helpers.EnumHelper;
 
 namespace WatchTracker.Data
 {
   public static class EnumValues
   {
-    public static IReadOnlyList<WatchStateOption> WatchStateOptions { get; } = new[] {
+    // HARDCODE: Want these in a specific order. MUST be kept in sync with enum.
+    /// <summary>
+    /// List of <see cref="WatchStateOption"/> in a specific order.
+    /// </summary>
+    public static IReadOnlyCollection<WatchStateOption> WatchStateOptions { get; } = new[] {
       WatchStateOption.Watch,
       WatchStateOption.Watching,
-      WatchStateOption.Watched,      
+      WatchStateOption.Watched,
       WatchStateOption.AwaitingEpisodes,
       WatchStateOption.Hiatus,
       WatchStateOption.GaveUp,
@@ -18,16 +23,15 @@ namespace WatchTracker.Data
       WatchStateOption.None
     };
 
+    /// <summary>
+    /// List of <see cref="RatingOption"/> ordered by value.
+    /// </summary>
+    public static IReadOnlyCollection<RatingOption> RatingOptions { get; } = GetValues<RatingOption>();
 
-
-    //GetValues<WatchStateOption>()
-    //.Where(x => x != WatchStateOption.None)
-    //.OrderBy(x => x.ToString())
-    //.ToArray();
-
-    public static RatingOption[] RatingOptions { get; } = GetValues<RatingOption>();
-
-    public static ShowTypeOption[] ShowTypeOptions { get; } = GetValues<ShowTypeOption>();
+    /// <summary>
+    /// List of <see cref="ShowTypeOption"/> ordered alphabetically.
+    /// </summary>
+    public static IReadOnlyCollection<ShowTypeOption> ShowTypeOptions { get; } = GetValues<ShowTypeOption>().OrderBy(x => x.ToString()).ToArray();
 
 
   }
