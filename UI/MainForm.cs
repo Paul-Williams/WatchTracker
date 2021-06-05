@@ -37,7 +37,7 @@ namespace WatchTracker
     public MainForm()
     {
       InitializeComponent();
-      AttachControlEventMethodHandlers();      
+      AttachControlEventMethodHandlers();
     }
 
     #endregion Public Constructors
@@ -333,7 +333,9 @@ namespace WatchTracker
           Application.DoEvents();
           Application.DoEvents(); // Just to make sure ;)
           Repository = await Task.Run(() => new Repository(new MdfFileInfo(Program.DatabasePath)));
-          await Task.Run(RefreshDataSource).ConfigureAwait(true);
+
+          // Cannot call RefreshDataSource here as it updates the UI causing X-Thread exception.
+          BindingSource.DataSource = await Task.Run(() => new BindingList<WatchItem>(GetFilteredItemList())).ConfigureAwait(true);
         }
 
         // NB: Be careful with the location of this line of code.
@@ -438,9 +440,19 @@ namespace WatchTracker
     }
 
     /// <summary>
-    /// Loads data into the BindingSource.
+    /// Refreshes data from database and attempts to maintain the current <see cref="TitleListBox"/> selection.
     /// </summary>
-    private void RefreshDataSource() => BindingSource.DataSource = new BindingList<WatchItem>(GetFilteredItemList());
+    private void RefreshDataSource()
+    {
+      // Keep note of the current selection, if any.
+      var current = TitleListBox.SelectedItem;//BindingSource.Current as WatchItem;
+
+      BindingSource.DataSource = new BindingList<WatchItem>(GetFilteredItemList());
+
+      // Attempt to restore selection, if any, prior to saving and refreshing.
+      if (current is not null && TitleListBox.Items.Contains(current)) TitleListBox.SelectedItem = current;
+
+    }
 
     /// <summary>
     /// Restores filter settings from previous session.
@@ -470,6 +482,9 @@ namespace WatchTracker
           // Originally the data was always updated. Now we don't update when there is no filter in place, as all items
           // are required, regardless of their watch-state.
           if (!WatchStateFilter.AllEnabled) RefreshDataSource();
+
+
+
         }
         catch (Exception ex)
         {
