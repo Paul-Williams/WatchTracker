@@ -285,19 +285,23 @@ namespace WatchTracker
     private void EnableSpellChecking()
     {
       CommentsTextBox.EnableSpellCheck();
-      //TitleTextBox.EnableSpellCheck();
-      //SynopsisTextBox.EnableSpellCheck();
+      SynopsisTextBox.EnableSpellCheck();
     }
 
     private void Form_Closed(object sender, FormClosedEventArgs e)
     {
       try
       {
+        // Persist the current watch-state filter for next session.
         Properties.Settings.Default.WatchStateFilter = WatchStateFilter.EnabledWatchStateOptions;
         Properties.Settings.Default.Save();
 
-        if (Repository!.HasChanges && MsgBox.ShowQuestion("Do you want to save changes?") == MsgBox.QuestionResult.Yes) Repository!.SaveChanges();
-        Repository!.Dispose();
+        // Repository may be null here if the form is closed shortly after opening.
+        if (Repository is Repository repo && repo.HasChanges)
+        {
+          if (MsgBox.ShowQuestion("Do you want to save changes?") == MsgBox.QuestionResult.Yes) repo.SaveChanges();
+          repo.Dispose();
+        }
       }
       catch (Exception ex) { MsgBox.ShowError(ex); }
     }
@@ -326,6 +330,7 @@ namespace WatchTracker
         using (AutoResetControlDisabler.Disable(this))
         {
           Show();
+          Application.DoEvents();
           Application.DoEvents(); // Just to make sure ;)
           Repository = await Task.Run(() => new Repository(new MdfFileInfo(Program.DatabasePath)));
           await Task.Run(RefreshDataSource).ConfigureAwait(true);
