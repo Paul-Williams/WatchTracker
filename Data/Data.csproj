@@ -77,11 +77,12 @@
     <Compile Include="DataContext.cs" />
     <Compile Include="EnumValues.cs" />
     <Compile Include="ImportHelper.cs" />
-    <Compile Include="Models\Rating.cs" />
-    <Compile Include="Enums.cs" />
+    <Compile Include="WatchStateOption.cs" />
     <Compile Include="Models\WatchItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RatingOption.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="ShowTypeOption.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
