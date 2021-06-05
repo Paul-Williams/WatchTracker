@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Watch Tracker")]
-[assembly: AssemblyCopyright("Copyright ©  Paul Williams 2019")]
+[assembly: AssemblyCopyright("Copyright © Paul Williams 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,7 +33,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2019.03.20.1")]
-[assembly: AssemblyFileVersion("2019.03.20.1")]
+[assembly: AssemblyVersion("2021.06.05.1")]
+[assembly: AssemblyFileVersion("2021.06.05.1")]
 [assembly: NeutralResourcesLanguage("en-GB")]
 
