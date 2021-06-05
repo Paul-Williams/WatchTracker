@@ -1,13 +1,12 @@
 ﻿#nullable enable 
 
-using ExtraConstraints;
 using PW.Extensions;
 using System;
 using System.Windows.Forms;
 
 namespace WatchTracker
 {
-  internal class EnumCheckBox<[EnumConstraint] T> : CheckBox
+  internal class EnumCheckBox<T> : CheckBox where T : Enum
   {
     /// <summary>
     /// Creates a new instance for the specified enum value. Text is set to <see cref="EnumExtensions.DisplayName(Enum)"/>
@@ -17,10 +16,8 @@ namespace WatchTracker
     {
       Value = value;
 
-#pragma warning disable CS8604 // Possible null reference argument.
       // T is constrained to Enum, so cannot be null.
       Text = (value as Enum).DisplayName();
-#pragma warning restore CS8604 // Possible null reference argument.
     }
 
     /// <summary>
