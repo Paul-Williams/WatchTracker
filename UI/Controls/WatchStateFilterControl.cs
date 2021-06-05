@@ -13,7 +13,7 @@ using PW.WinForms.Controls;
 namespace WatchTracker
 {
   public partial class WatchStateFilterControl : DropDownControl
-  {
+  {   
 
     #region Public Constructors
 
@@ -155,15 +155,16 @@ namespace WatchTracker
     }
 
     /// <summary>
-    /// Handles checking/unchecking all <see cref="WatchStateOption"/> check-boxes
+    /// Handles checking/un-checking all <see cref="WatchStateOption"/> check-boxes.
     /// </summary>
     private void EnableAllNoneButton_Click(object sender, EventArgs e)
-    {
-      var state = EnableAllNoneButton.Text == "Select All";
-
-      //using (FilterChangedEventEnabled.CreateAutoResetToken(false))
+    {     
+      // Toggle state
+      var state = !AllEnabled;
+      
       EnumCheckBoxes.ForEach(cb => cb.Checked = state);
 
+      SyncUi();
     }
 
     /// <summary>
@@ -188,6 +189,7 @@ namespace WatchTracker
 
     private void SyncUi()
     {
+      // HARDCODE: Button Text
       EnableAllNoneButton.Text = AllEnabled ? "Select None" : "Select All";
       Text = TextInternal;
     }
