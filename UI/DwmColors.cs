@@ -3,7 +3,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace PW.WinForms
+namespace PW.Drawing
 {
   // See: https://stackoverflow.com/questions/13660976/get-the-active-color-of-windows-8-automatic-color-theme
   //      https://docs.microsoft.com/en-us/windows/win32/api/dwmapi/nf-dwmapi-dwmgetcolorizationcolor
