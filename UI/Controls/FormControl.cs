@@ -13,27 +13,23 @@ namespace PW.WinForms
   public partial class FormControl : UserControl
   {
 
-    public event EventHandler? RequestClose;
-
-    private Color AccentColor { get; }
-    private Pen AccentPen { get; } = new Pen(DwmColors.GetAccentColor(true), 1);
-    private Rectangle BorderRectangle { get; set; }
-
-    public FormControl()
-    {
+    public FormControl() {
       InitializeComponent();
 
       AccentColor = DwmColors.GetAccentColor(true);
       AccentPen = new Pen(AccentColor, 1);
     }
 
-    protected override void OnPaint(PaintEventArgs e)
-    {
-      base.OnPaint(e);
+    public event EventHandler? RequestClose;
 
-      // Draw a fake border in the accent color.      
-      e.Graphics.DrawRectangle(AccentPen, BorderRectangle);
-
+    public DialogResult Result { get; private set; } = DialogResult.None;
+    private Color AccentColor { get; }
+    private Pen AccentPen { get; } = new Pen(DwmColors.GetAccentColor(true), 1);
+    private Rectangle BorderRectangle { get; set; }
+    protected void Close(DialogResult result) {
+      Result = result;
+      OnClose();
+      RequestClose?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
@@ -41,12 +37,14 @@ namespace PW.WinForms
     /// </summary>
     protected virtual void OnClose() { }
 
-    protected void Close()
-    {
-      OnClose();
-      RequestClose?.Invoke(this, EventArgs.Empty);
-    }
 
+    protected override void OnPaint(PaintEventArgs e) {
+      base.OnPaint(e);
+
+      // Draw a fake border in the accent color.      
+      e.Graphics.DrawRectangle(AccentPen, BorderRectangle);
+
+    }
     private void FormControl_Load(object sender, EventArgs e)
     {
       BorderRectangle = new Rectangle(0, 0, Width - 1, Height - 1);
@@ -63,7 +61,7 @@ namespace PW.WinForms
       // Enable dragging this control using the 'caption' panel.
       CaptionPanel.ParentIsDraggable(true);
 
-      FakeCloseButton.Click += (s, e) => Close();
+      FakeCloseButton.Click += (s, e) => Close(DialogResult.Cancel);
     }
   }
 }

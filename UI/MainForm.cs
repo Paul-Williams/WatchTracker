@@ -212,14 +212,9 @@ namespace WatchTracker {
     /// </summary>
     private void CheckIfWatched() {
       var input = InputBoxForm.GetInput();
-
       if (string.IsNullOrWhiteSpace(input)) return;
 
-      var watched = Repository!.ContainsTitle(input);
-
-      MsgBox.ShowInfo(watched ? "Watched" : "Not watched", this);
-
-
+      MsgBox.ShowInfo(Repository!.ContainsTitle(input) ? "Watched" : "Not watched", this);
     }
 
     private void CommentsTextBox_LinkClicked(object sender, LinkClickedEventArgs e) {
@@ -247,13 +242,11 @@ namespace WatchTracker {
       // Only support opening a single instance of filter control.
       if (FilterControlIsOpen) return;
 
-      var fc = new FilterControl { Settings = FilterByTitle };
-      Controls.Add(fc);
-      fc.Location = FilterControlLocation;
-
-
-      fc.RequestClose += OnFilterControlRequestClose;
-
+      var fc = new FilterControl();
+      fc.Initialize(FilterByTitle);
+      fc.RequestClose += OnFilterControlRequestClose; 
+      Controls.Add(fc);      
+      fc.Location = FilterControlLocation;      
       fc.BringToFront();
       fc.Focus();
     }
