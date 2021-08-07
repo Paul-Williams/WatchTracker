@@ -19,10 +19,8 @@ using WatchTracker.Controls;
 using static WatchTracker.Controls.InterceptPasteTextBox;
 using System.Threading.Tasks;
 
-namespace WatchTracker
-{
-  internal partial class MainForm : Form
-  {
+namespace WatchTracker {
+  internal partial class MainForm : Form {
     #region Private Fields
 
     private UiModeOption _currentUiMode = UiModeOption.Normal;
@@ -34,8 +32,7 @@ namespace WatchTracker
     /// <summary>
     /// Constructor
     /// </summary>
-    public MainForm()
-    {
+    public MainForm() {
       InitializeComponent();
       AttachControlEventMethodHandlers();
     }
@@ -89,10 +86,8 @@ namespace WatchTracker
     /// <summary>
     /// Adds the new item to the repository and restores navigation.
     /// </summary>
-    private void AcceptNewItem()
-    {
-      try
-      {
+    private void AcceptNewItem() {
+      try {
         Repository!.Add((WatchItem)BindingSource.Current);
         SetUiMode(UiModeOption.Normal);
         OnDataChanged();
@@ -101,10 +96,8 @@ namespace WatchTracker
     }
 
     // Adds a new item to the binding source and prevents navigation away from it.
-    private void AddNewItem()
-    {
-      try
-      {
+    private void AddNewItem() {
+      try {
         SetUiMode(UiModeOption.AddingNewItem);
         BindingSource.Position = BindingSource.Add(new WatchItem() { Status = WatchStateOption.Watch });
         TitleTextBox.Focus();
@@ -115,14 +108,10 @@ namespace WatchTracker
     /// <summary>
     /// Deletes the selected item from both the binding source and repository.
     /// </summary>
-    private void AskUserAndDeleteSelectedItem()
-    {
-      try
-      {
-        if (BindingSource.Current is WatchItem item)
-        {
-          if (MsgBox.ShowQuestion($"Delete watch item '{item.Title}'?") == MsgBox.QuestionResult.Yes)
-          {
+    private void AskUserAndDeleteSelectedItem() {
+      try {
+        if (BindingSource.Current is WatchItem item) {
+          if (MsgBox.ShowQuestion($"Delete watch item '{item.Title}'?") == MsgBox.QuestionResult.Yes) {
             Repository!.Remove(item);
             BindingSource.Remove(item);
           }
@@ -137,8 +126,7 @@ namespace WatchTracker
     /// Do not attach anything to do with data here otherwise cross-thread exceptions will occur in Form_Load.
     /// This is due to the data being initially loaded using await.
     /// </summary>
-    private void AttachControlEventMethodHandlers()
-    {
+    private void AttachControlEventMethodHandlers() {
       // Form
       Load += Form_Load;
       FormClosed += Form_Closed;
@@ -166,8 +154,7 @@ namespace WatchTracker
     /// <summary>
     /// Binds controls to the BindingSource.
     /// </summary>
-    private void BindControls()
-    {
+    private void BindControls() {
       // NB: Bind enums to combos loop-up values before binding them to actual data!
       CreateStaticBindings();
 
@@ -201,10 +188,8 @@ namespace WatchTracker
     /// <summary>
     /// Launches browser and navigates to the URL for the current item.
     /// </summary>
-    private void BrowseToSelectedItemSource()
-    {
-      try
-      {
+    private void BrowseToSelectedItemSource() {
+      try {
         if (BindingSource.Current is WatchItem item && item.Source.IsUrl()) Process.Start(item.Source);
       }
       catch (Exception ex) { MsgBox.ShowError(ex); }
@@ -213,10 +198,8 @@ namespace WatchTracker
     /// <summary>
     /// Removes the new item from the binding source and restores navigation.
     /// </summary>
-    private void CancelNewItem()
-    {
-      try
-      {
+    private void CancelNewItem() {
+      try {
         BindingSource.RemoveCurrent();
         SetUiMode(UiModeOption.Normal);
         OnDataChanged();
@@ -227,8 +210,7 @@ namespace WatchTracker
     /// <summary>
     /// Prompts user for title and checks whether it has been watched.
     /// </summary>
-    private void CheckIfWatched()
-    {
+    private void CheckIfWatched() {
       var input = InputBoxForm.GetInput();
 
       if (string.IsNullOrWhiteSpace(input)) return;
@@ -240,14 +222,11 @@ namespace WatchTracker
 
     }
 
-    private void CommentsTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
-    {
-      try
-      {
+    private void CommentsTextBox_LinkClicked(object sender, LinkClickedEventArgs e) {
+      try {
         Helper.LaunchWeblink(e.LinkText);
       }
-      catch (Exception ex)
-      {
+      catch (Exception ex) {
         MsgBox.ShowError(ex, "Unable to browse to web page.");
       }
     }
@@ -255,8 +234,7 @@ namespace WatchTracker
     /// <summary>
     /// Creates static bindings for ComboBox -> Enums    
     /// </summary>
-    private void CreateStaticBindings()
-    {
+    private void CreateStaticBindings() {
       StatusComboBox.DataSource = EnumValues.WatchStateOptions;
       RatingComboBox.DataSource = EnumValues.RatingOptions;
       ShowTypeComboBox.DataSource = EnumValues.ShowTypeOptions;
@@ -265,8 +243,7 @@ namespace WatchTracker
     /// <summary>
     /// Displays the filter-by-title control.
     /// </summary>
-    private void DisplayFilterByTitleControl()
-    {
+    private void DisplayFilterByTitleControl() {
       // Only support opening a single instance of filter control.
       if (FilterControlIsOpen) return;
 
@@ -282,23 +259,19 @@ namespace WatchTracker
     }
 
     // Enables spell checking for specific controls
-    private void EnableSpellChecking()
-    {
+    private void EnableSpellChecking() {
       CommentsTextBox.EnableSpellCheck();
       SynopsisTextBox.EnableSpellCheck();
     }
 
-    private void Form_Closed(object sender, FormClosedEventArgs e)
-    {
-      try
-      {
+    private void Form_Closed(object sender, FormClosedEventArgs e) {
+      try {
         // Persist the current watch-state filter for next session.
         Properties.Settings.Default.WatchStateFilter = WatchStateFilter.EnabledWatchStateOptions;
         Properties.Settings.Default.Save();
 
         // Repository may be null here if the form is closed shortly after opening.
-        if (Repository is Repository repo && repo.HasChanges)
-        {
+        if (Repository is Repository repo && repo.HasChanges) {
           if (MsgBox.ShowQuestion("Do you want to save changes?") == MsgBox.QuestionResult.Yes) repo.SaveChanges();
           repo.Dispose();
         }
@@ -306,20 +279,16 @@ namespace WatchTracker
       catch (Exception ex) { MsgBox.ShowError(ex); }
     }
 
-    private void Form_KeyDown(object sender, KeyEventArgs e)
-    {
+    private void Form_KeyDown(object sender, KeyEventArgs e) {
       // Key-hook to save changes,
-      if (e.Control && e.KeyCode == Keys.S)
-      {
+      if (e.Control && e.KeyCode == Keys.S) {
         e.SuppressKeyPress = true;
         SaveChanges();
       }
     }
 
-    private async void Form_Load(object sender, EventArgs e)
-    {
-      try
-      {
+    private async void Form_Load(object sender, EventArgs e) {
+      try {
         Icon = Properties.Resources.App;
         RestorePersistedFilterSettings();
         // Be careful with the location of this line of code. It must be attached after initializing the filter controls,
@@ -327,8 +296,7 @@ namespace WatchTracker
         WatchStateFilter.FilterChanged += (s, ea) => RefreshDataSource();
 
 
-        using (AutoResetControlDisabler.Disable(this))
-        {
+        using (AutoResetControlDisabler.Disable(this)) {
           Show();
           Application.DoEvents();
           Application.DoEvents(); // Just to make sure ;)
@@ -357,17 +325,14 @@ namespace WatchTracker
         ToolTips.SetToolTip(CancelNewItemButton, "Cancel adding new item");
 
       }
-      catch (Exception ex)
-      {
+      catch (Exception ex) {
         MsgBox.ShowError(ex);
       }
 
-      try
-      {
+      try {
         BindControls();
       }
-      catch (Exception ex)
-      {
+      catch (Exception ex) {
         MsgBox.ShowError(ex, "Error binding controls to data.");
       }
     }
@@ -375,8 +340,7 @@ namespace WatchTracker
     /// <summary>
     /// Creates a list of either all WatchItems, or only those which are enabled in the filter.
     /// </summary>
-    private List<WatchItem> GetFilteredItemList()
-    {
+    private List<WatchItem> GetFilteredItemList() {
       // Create list where title contains custom filter text
       List<WatchItem> CustomContains() => Repository!.OrderedWatchItems().Where(x => x.Title.Contains(FilterByTitle.Text, StringComparison.OrdinalIgnoreCase)).ToList();
 
@@ -416,8 +380,7 @@ namespace WatchTracker
     /// This method is a bit of a hack to update those controls which rely on, but are not so easily bound to, the data.
     /// It will be executed when ever the current item selection changes.
     /// </summary>
-    private void OnCurrentChanged()
-    {
+    private void OnCurrentChanged() {
       OpenButton.Enabled = CurrentItemHasUrl;
       NextEpisodePanel.Enabled = (BindingSource.Current is WatchItem item && item.ShowType == ShowTypeOption.Series);
     }
@@ -428,10 +391,8 @@ namespace WatchTracker
     /// Handles title file control request to close.
     /// </summary>
     /// <param name="control"></param>
-    private void OnFilterControlRequestClose(object sender, EventArgs e)
-    {
-      if (sender is FilterControl control)
-      {
+    private void OnFilterControlRequestClose(object sender, EventArgs e) {
+      if (sender is FilterControl control) {
         // Keep note for current location for use with future instances.
         FilterControlLocation = control.Location;
         Controls.Remove(control);
@@ -442,8 +403,7 @@ namespace WatchTracker
     /// <summary>
     /// Refreshes data from database and attempts to maintain the current <see cref="TitleListBox"/> selection.
     /// </summary>
-    private void RefreshDataSource()
-    {
+    private void RefreshDataSource() {
       // Keep note of the current selection, if any.
       var current = TitleListBox.SelectedItem;//BindingSource.Current as WatchItem;
 
@@ -457,8 +417,7 @@ namespace WatchTracker
     /// <summary>
     /// Restores filter settings from previous session.
     /// </summary>
-    private void RestorePersistedFilterSettings()
-    {
+    private void RestorePersistedFilterSettings() {
       // Restore previous settings, if available. Otherwise check everything.
       var filter = Properties.Settings.Default.WatchStateFilter ?? PW.Helpers.EnumHelper.GetValues<WatchStateOption>();
 
@@ -469,12 +428,9 @@ namespace WatchTracker
     /// <summary>
     /// Persists data changes to database.
     /// </summary>
-    private void SaveChanges()
-    {
-      if (Repository!.HasChanges)
-      {
-        try
-        {
+    private void SaveChanges() {
+      if (Repository!.HasChanges) {
+        try {
           Repository!.SaveChanges();
 
           // Note: This refresh is required to ensure that the titles displayed are correct for current filter.
@@ -486,8 +442,7 @@ namespace WatchTracker
 
 
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
           MsgBox.ShowError(ex);
         }
       }
@@ -497,10 +452,8 @@ namespace WatchTracker
     /// <summary>
     /// Set the UI to the specified mode. Enables/disables controls based on mode.
     /// </summary> 
-    private void SetUiMode(UiModeOption value)
-    {
-      if (value.AssignIfNotEqual(ref _currentUiMode))
-      {
+    private void SetUiMode(UiModeOption value) {
+      if (value.AssignIfNotEqual(ref _currentUiMode)) {
         NewItemButtonsPanel.Visible = value == UiModeOption.AddingNewItem;
         NormalModeButtonsPanel.Visible = value == UiModeOption.Normal;
         TitleListBox.Enabled = value == UiModeOption.Normal;
@@ -513,5 +466,12 @@ namespace WatchTracker
     private void TrimPastedTextHandler(object sender, BeforePasteEventArgs e) => e.Text = e.Text.Trim();
 
     #endregion Private Methods
+
+
+    private void WatchItemsListContextMenu_Opening(object sender, CancelEventArgs e) {
+      // Disallow adding new items when filter dialog is open. See Issue #7
+      AddNewMenuItem.Enabled = !FilterControlIsOpen;
+    }
+
   }
 }

@@ -159,7 +159,8 @@ namespace WatchTracker
             this.toolStripMenuItem2,
             this.FilterByTitleToolStripMenuItem});
       this.WatchItemsListContextMenu.Name = "WatchItemsListContextMenu";
-      this.WatchItemsListContextMenu.Size = new System.Drawing.Size(182, 104);
+      this.WatchItemsListContextMenu.Size = new System.Drawing.Size(182, 126);
+      this.WatchItemsListContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.WatchItemsListContextMenu_Opening);
       // 
       // AddNewMenuItem
       // 
@@ -305,7 +306,7 @@ namespace WatchTracker
       this.OpenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightGreen;
       this.OpenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
       this.OpenButton.Font = new System.Drawing.Font("Segoe UI Symbol", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.OpenButton.Location = new System.Drawing.Point(507, 12);
+      this.OpenButton.Location = new System.Drawing.Point(503, 12);
       this.OpenButton.Name = "OpenButton";
       this.OpenButton.Size = new System.Drawing.Size(79, 70);
       this.OpenButton.TabIndex = 11;
@@ -322,7 +323,7 @@ namespace WatchTracker
       this.TabControl.Location = new System.Drawing.Point(14, 210);
       this.TabControl.Name = "TabControl";
       this.TabControl.SelectedIndex = 0;
-      this.TabControl.Size = new System.Drawing.Size(547, 255);
+      this.TabControl.Size = new System.Drawing.Size(543, 255);
       this.TabControl.TabIndex = 16;
       // 
       // CommentsTabPage
@@ -331,7 +332,7 @@ namespace WatchTracker
       this.CommentsTabPage.Location = new System.Drawing.Point(4, 26);
       this.CommentsTabPage.Name = "CommentsTabPage";
       this.CommentsTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.CommentsTabPage.Size = new System.Drawing.Size(539, 225);
+      this.CommentsTabPage.Size = new System.Drawing.Size(535, 225);
       this.CommentsTabPage.TabIndex = 0;
       this.CommentsTabPage.Text = "Comments";
       this.CommentsTabPage.UseVisualStyleBackColor = true;
@@ -343,7 +344,7 @@ namespace WatchTracker
       this.CommentsTextBox.Location = new System.Drawing.Point(3, 3);
       this.CommentsTextBox.Name = "CommentsTextBox";
       this.CommentsTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-      this.CommentsTextBox.Size = new System.Drawing.Size(533, 219);
+      this.CommentsTextBox.Size = new System.Drawing.Size(529, 219);
       this.CommentsTextBox.TabIndex = 4;
       this.CommentsTextBox.Text = "";
       this.CommentsTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.CommentsTextBox_LinkClicked);
@@ -354,7 +355,7 @@ namespace WatchTracker
       this.SynopsisTabPage.Location = new System.Drawing.Point(4, 22);
       this.SynopsisTabPage.Name = "SynopsisTabPage";
       this.SynopsisTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.SynopsisTabPage.Size = new System.Drawing.Size(539, 229);
+      this.SynopsisTabPage.Size = new System.Drawing.Size(535, 229);
       this.SynopsisTabPage.TabIndex = 1;
       this.SynopsisTabPage.Text = "Synopsis";
       this.SynopsisTabPage.UseVisualStyleBackColor = true;
@@ -367,7 +368,7 @@ namespace WatchTracker
       this.SynopsisTextBox.Multiline = true;
       this.SynopsisTextBox.Name = "SynopsisTextBox";
       this.SynopsisTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.SynopsisTextBox.Size = new System.Drawing.Size(533, 223);
+      this.SynopsisTextBox.Size = new System.Drawing.Size(529, 223);
       this.SynopsisTextBox.TabIndex = 6;
       // 
       // TitleTextBox
@@ -376,7 +377,7 @@ namespace WatchTracker
             | System.Windows.Forms.AnchorStyles.Right)));
       this.TitleTextBox.Location = new System.Drawing.Point(68, 12);
       this.TitleTextBox.Name = "TitleTextBox";
-      this.TitleTextBox.Size = new System.Drawing.Size(433, 25);
+      this.TitleTextBox.Size = new System.Drawing.Size(429, 25);
       this.TitleTextBox.TabIndex = 3;
       // 
       // label6
@@ -458,7 +459,7 @@ namespace WatchTracker
             | System.Windows.Forms.AnchorStyles.Right)));
       this.SourceTextBox.Location = new System.Drawing.Point(68, 57);
       this.SourceTextBox.Name = "SourceTextBox";
-      this.SourceTextBox.Size = new System.Drawing.Size(433, 25);
+      this.SourceTextBox.Size = new System.Drawing.Size(429, 25);
       this.SourceTextBox.TabIndex = 5;
       // 
       // MainForm
