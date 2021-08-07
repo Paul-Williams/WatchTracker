@@ -10,37 +10,39 @@ using System.Windows.Forms;
 using WatchTracker.Data;
 using PW.WinForms.Controls;
 
-namespace WatchTracker
-{
-  public partial class WatchStateFilterControl : DropDownControl
-  {   
+namespace WatchTracker {
+  public partial class WatchStateFilterControl : DropDownControl {
 
     #region Public Constructors
 
     /// <summary>
     /// Creates a new <see cref="WatchStateFilterControl"/> instance.
     /// </summary>
-    public WatchStateFilterControl()
-    {
+    public WatchStateFilterControl() {
       InitializeComponent();
       InitializeDropDown(panel1);
 
+      // Standard vertical-spacing between child-controls.
       const int spacing = 25;
 
-      var location = new Point(13, 40);
+      // Used to dynamically set location for child-controls
+      var nextControlLocation = new Point(13, 40);
 
       var checkboxes = new List<EnumCheckBox<WatchStateOption>>(PW.Helpers.EnumHelper.Count<WatchStateOption>());
 
-      foreach (var value in EnumValues.WatchStateOptions)
-      {
+      foreach (var value in EnumValues.WatchStateOptions) {
         var checkbox = new EnumCheckBox<WatchStateOption>(value) { Text = value.DisplayName(), };
-        checkbox.Location = location;
+        checkbox.Location = nextControlLocation;
         checkbox.AutoSize = true;
         checkbox.Click += (s, e) => SyncUi();
         panel1.Controls.Add(checkbox);
         checkboxes.Add(checkbox);
-        location.Offset(0, spacing);
+        nextControlLocation.Offset(0, spacing);
       }
+
+      // Note that 'location' was off-set already, before exiting the above loop.
+      CustomFilterButton.Location = nextControlLocation;
+      nextControlLocation.Offset(0, CustomFilterButton.Height);
 
       EnumCheckBoxes = checkboxes.ToArray();
 
@@ -53,10 +55,10 @@ namespace WatchTracker
       // Ensure the panel is large enough
 
       // Ensure the height is enough to display the last check box 
-      if (location.Y > panel1.Height) panel1.Height = location.Y + spacing;
+      if (nextControlLocation.Y > panel1.Height) panel1.Height = nextControlLocation.Y + spacing;
 
       // Find the widest checkbox and add a left & right margin
-      var requiredWidth = EnumCheckBoxes.Select(c => c.Width).Max() + (2 * location.X);
+      var requiredWidth = EnumCheckBoxes.Select(c => c.Width).Max() + (2 * nextControlLocation.X);
 
       // Ensure the width is great enough.
       if (requiredWidth > panel1.Width) panel1.Width = requiredWidth;
@@ -108,14 +110,11 @@ namespace WatchTracker
     /// <summary>
     /// Creates the string for display in the drop-down text area
     /// </summary>
-    private string TextInternal
-    {
-      get
-      {
+    private string TextInternal {
+      get {
         var enabledStates = EnabledWatchStateOptions;
 
-        return enabledStates.Length switch
-        {
+        return enabledStates.Length switch {
           0 => "Nothing Enabled",
           1 => EnabledWatchStateOptions.First().DisplayName(),
           2 => enabledStates[0].DisplayName() + ", " + enabledStates[1].DisplayName(),
@@ -132,8 +131,7 @@ namespace WatchTracker
     /// <summary>
     /// Set the enabled state for a <see cref="WatchStateOption"/>
     /// </summary>
-    public void SetChecked(WatchStateOption[] values)
-    {
+    public void SetChecked(WatchStateOption[] values) {
       // Set check states for each checkbox
       EnumCheckBoxes.ForEach(x => x.Checked = values.Contains(x.Value));
       SyncUi();
@@ -148,8 +146,7 @@ namespace WatchTracker
     /// </summary>
     private void CacheCheckBoxStates() => EnumCheckBoxes.ForEach(x => CheckBoxStatesOnDropDown[x] = x.Checked);
 
-    private void CustomFilterButton_Click(object sender, EventArgs e)
-    {
+    private void CustomFilterButton_Click(object sender, EventArgs e) {
       CloseDropDown();
       CustomFilterButtonClick?.Invoke(this, EventArgs.Empty);
     }
@@ -157,11 +154,10 @@ namespace WatchTracker
     /// <summary>
     /// Handles checking/un-checking all <see cref="WatchStateOption"/> check-boxes.
     /// </summary>
-    private void EnableAllNoneButton_Click(object sender, EventArgs e)
-    {     
+    private void EnableAllNoneButton_Click(object sender, EventArgs e) {
       // Toggle state
       var state = !AllEnabled;
-      
+
       EnumCheckBoxes.ForEach(cb => cb.Checked = state);
 
       SyncUi();
@@ -172,23 +168,20 @@ namespace WatchTracker
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void OnDropDownClosed(object sender, EventArgs e)
-    {
+    private void OnDropDownClosed(object sender, EventArgs e) {
 
       SyncUi();
       // Raise event if there is a handler and any check box value has changed.
-      if (FilterChanged is not null && EnumCheckBoxes.Any(x => x.Checked != CheckBoxStatesOnDropDown[x])) 
+      if (FilterChanged is not null && EnumCheckBoxes.Any(x => x.Checked != CheckBoxStatesOnDropDown[x]))
         FilterChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    private void OnDropDownOpened(object sender, EventArgs e)
-    {
+    private void OnDropDownOpened(object sender, EventArgs e) {
       // Cache initial state for change tracking.
       CacheCheckBoxStates();
     }
 
-    private void SyncUi()
-    {
+    private void SyncUi() {
       // HARDCODE: Button Text
       EnableAllNoneButton.Text = AllEnabled ? "Select None" : "Select All";
       Text = TextInternal;

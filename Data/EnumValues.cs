@@ -20,6 +20,7 @@ namespace WatchTracker.Data
       WatchStateOption.Hiatus,
       WatchStateOption.GaveUp,
       WatchStateOption.DoNotWatch,
+      WatchStateOption.AwaitingRelease,
       WatchStateOption.None
     };
 
