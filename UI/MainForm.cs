@@ -1,7 +1,6 @@
 ﻿#nullable enable 
 
 using i00SpellCheck;
-using PW.Data;
 using PW.Extensions;
 using PW.WinForms;
 using PW.WinForms.DataBinding;
@@ -18,6 +17,7 @@ using System.Drawing;
 using WatchTracker.Controls;
 using static WatchTracker.Controls.InterceptPasteTextBox;
 using System.Threading.Tasks;
+using PW.Data;
 
 namespace WatchTracker {
   internal partial class MainForm : Form {
