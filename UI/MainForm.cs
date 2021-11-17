@@ -160,9 +160,9 @@ namespace WatchTracker {
 
       var binder = new Binder<BindingSource>(BindingSource);
       binder.BindText(TitleTextBox, nameof(WatchItem.Title));
-      binder.BindText(SourceTextBox, nameof(WatchItem.Source), null!, ConvertEventHandlers.EmptyStringToNull);
-      binder.BindText(CommentsTextBox, nameof(WatchItem.Comments), null!, ConvertEventHandlers.EmptyStringToNull);
-      binder.BindText(SynopsisTextBox, nameof(WatchItem.Synopsis), null!, ConvertEventHandlers.EmptyStringToNull);
+      binder.BindText(SourceTextBox, nameof(WatchItem.Source), null!, ConvertEventHandlers.EmptyStringToNull!);
+      binder.BindText(CommentsTextBox, nameof(WatchItem.Comments), null!, ConvertEventHandlers.EmptyStringToNull!);
+      binder.BindText(SynopsisTextBox, nameof(WatchItem.Synopsis), null!, ConvertEventHandlers.EmptyStringToNull!);
       binder.BindChecked(IsAnimeCheckBox, nameof(WatchItem.IsAnime));
 
       // These bindings do work, but are not fired until after the control looses focus
@@ -190,7 +190,7 @@ namespace WatchTracker {
     /// </summary>
     private void BrowseToSelectedItemSource() {
       try {
-        if (BindingSource.Current is WatchItem item && item.Source.IsUrl()) Process.Start(item.Source);
+        if (BindingSource.Current is WatchItem item && item.Source is string source && source.IsUrl()) Process.Start(source);
       }
       catch (Exception ex) { MsgBox.ShowError(ex); }
     }
@@ -219,7 +219,7 @@ namespace WatchTracker {
 
     private void CommentsTextBox_LinkClicked(object sender, LinkClickedEventArgs e) {
       try {
-        Helper.LaunchWeblink(e.LinkText);
+        if (e.LinkText is string link)  Helper.LaunchWeblink(link);
       }
       catch (Exception ex) {
         MsgBox.ShowError(ex, "Unable to browse to web page.");
@@ -257,7 +257,7 @@ namespace WatchTracker {
       SynopsisTextBox.EnableSpellCheck();
     }
 
-    private void Form_Closed(object sender, FormClosedEventArgs e) {
+    private void Form_Closed(object? sender, FormClosedEventArgs e) {
       try {
         // Persist the current watch-state filter for next session.
         Properties.Settings.Default.WatchStateFilter = WatchStateFilter.EnabledWatchStateOptions;
@@ -272,7 +272,7 @@ namespace WatchTracker {
       catch (Exception ex) { MsgBox.ShowError(ex); }
     }
 
-    private void Form_KeyDown(object sender, KeyEventArgs e) {
+    private void Form_KeyDown(object? sender, KeyEventArgs e) {
       // Key-hook to save changes,
       if (e.Control && e.KeyCode == Keys.S) {
         e.SuppressKeyPress = true;
@@ -280,7 +280,7 @@ namespace WatchTracker {
       }
     }
 
-    private async void Form_Load(object sender, EventArgs e) {
+    private async void Form_Load(object? sender, EventArgs e) {
       try {
         Icon = Properties.Resources.App;
         RestorePersistedFilterSettings();
@@ -335,10 +335,16 @@ namespace WatchTracker {
     /// </summary>
     private List<WatchItem> GetFilteredItemList() {
       // Create list where title contains custom filter text
-      List<WatchItem> CustomContains() => Repository!.OrderedWatchItems().Where(x => x.Title.Contains(FilterByTitle.Text, StringComparison.OrdinalIgnoreCase)).ToList();
+      List<WatchItem> CustomContains() => 
+        Repository!.OrderedWatchItems()
+        .Where(x => x.Title is not null &&  x.Title.Contains(FilterByTitle.Text, StringComparison.OrdinalIgnoreCase))
+        .ToList();
 
       // Create list where title starts with custom filter text
-      List<WatchItem> CustomStartsWith() => Repository!.OrderedWatchItems().Where(x => x.Title.StartsWith(FilterByTitle.Text, StringComparison.OrdinalIgnoreCase)).ToList();
+      List<WatchItem> CustomStartsWith() => 
+        Repository!.OrderedWatchItems()
+        .Where(x => x.Title is not null && x.Title.StartsWith(FilterByTitle.Text, StringComparison.OrdinalIgnoreCase))
+        .ToList();
 
       // Create list of all items. I.e. no filter.
       List<WatchItem> All() => Repository!.OrderedWatchItems().ToList();
@@ -384,7 +390,7 @@ namespace WatchTracker {
     /// Handles title file control request to close.
     /// </summary>
     /// <param name="control"></param>
-    private void OnFilterControlRequestClose(object sender, EventArgs e) {
+    private void OnFilterControlRequestClose(object? sender, EventArgs e) {
       if (sender is FilterControl control) {
         // Keep note for current location for use with future instances.
         FilterControlLocation = control.Location;

@@ -16,20 +16,20 @@ namespace WatchTracker.Data.Models
     [Required]
     [MaxLength(256, ErrorMessage = "{0} can have a maximum of {1} characters.")]
     [Index]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
-    public string Source { get; set; }
+    public string? Source { get; set; }
 
     [Index]
     public WatchStateOption Status { get; set; }
 
     public ShowTypeOption ShowType { get; set; } = ShowTypeOption.Series;
 
-    public string Comments { get; set; }
+    public string? Comments { get; set; }
 
     public RatingOption Rating { get; set; }
 
-    public string Synopsis { get; set; }
+    public string? Synopsis { get; set; }
 
     public int NextEpisode { get; set; }
 

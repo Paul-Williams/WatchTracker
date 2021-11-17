@@ -19,3 +19,5 @@ See: https://www.codeproject.com/Articles/265823/i-Spell-Check-and-Control-Exten
 [14/02/19] Now working with local data, through repository.
 
 ---
+
+[17/11/21] Upgraded to .NET 6 - Still using EntityFramework 6.x (rather than EFCore)

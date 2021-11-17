@@ -42,7 +42,7 @@ namespace WatchTracker.Controls {
     /// <summary>
     /// Syncs the option button state back to the settings object.
     /// </summary>
-    private void SyncSettingsFilterTypeToUI(object sender, EventArgs e) {
+    private void SyncSettingsFilterTypeToUI(object? sender, EventArgs e) {
       if (Settings is null) return;
       Settings.FilterType = FilterMethodContainsRadioButton.Checked ? StringsWhere.Contains : StringsWhere.StartsWith;
     }

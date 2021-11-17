@@ -168,7 +168,7 @@ namespace WatchTracker {
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void OnDropDownClosed(object sender, EventArgs e) {
+    private void OnDropDownClosed(object? sender, EventArgs e) {
 
       SyncUi();
       // Raise event if there is a handler and any check box value has changed.
@@ -176,7 +176,7 @@ namespace WatchTracker {
         FilterChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    private void OnDropDownOpened(object sender, EventArgs e) {
+    private void OnDropDownOpened(object? sender, EventArgs e) {
       // Cache initial state for change tracking.
       CacheCheckBoxStates();
     }
