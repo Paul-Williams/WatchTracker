@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28711.60
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{42FD49C3-0D67-4FD2-B92D-0FADB5BF3586}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{E4E7D3DC-B53A-4543-BE0F-AA65238DBA7F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data_UnitTests", "Data_UnitTests\Data_UnitTests.csproj", "{1E180CB5-E1EB-4F38-8C00-BB5590AA20A3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{76FC3DE0-8228-4DD8-9649-44F4F09CA38E}"
 	ProjectSection(SolutionItems) = preProject
@@ -28,30 +26,11 @@ Global
 		{E4E7D3DC-B53A-4543-BE0F-AA65238DBA7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4E7D3DC-B53A-4543-BE0F-AA65238DBA7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4E7D3DC-B53A-4543-BE0F-AA65238DBA7F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E180CB5-E1EB-4F38-8C00-BB5590AA20A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E180CB5-E1EB-4F38-8C00-BB5590AA20A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E180CB5-E1EB-4F38-8C00-BB5590AA20A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E180CB5-E1EB-4F38-8C00-BB5590AA20A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CFFDE393-A03B-4127-80B6-9DFE6EDCC33E}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://pwdevs.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Data\\Data.csproj
-		SccProjectName1 = Data
-		SccLocalPath1 = Data
-		SccProjectUniqueName2 = Data_UnitTests\\Data_UnitTests.csproj
-		SccProjectName2 = Data_UnitTests
-		SccLocalPath2 = Data_UnitTests
-		SccProjectUniqueName3 = UI\\UI.csproj
-		SccProjectName3 = UI
-		SccLocalPath3 = UI
 	EndGlobalSection
 EndGlobal

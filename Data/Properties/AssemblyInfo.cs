@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Watch Tracker Data Library")]
-[assembly: AssemblyCopyright("Copyright ©  Paul Williams 2019")]
+[assembly: AssemblyCopyright("Copyright © Paul Williams 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
