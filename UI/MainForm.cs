@@ -190,7 +190,10 @@ namespace WatchTracker {
     /// </summary>
     private void BrowseToSelectedItemSource() {
       try {
-        if (BindingSource.Current is WatchItem item && item.Source is string source && source.IsUrl()) Process.Start(source);
+        if (BindingSource.Current is WatchItem item && item.Source is string source && source.IsUrl()) 
+        {
+          Process.Start(new ProcessStartInfo(source) { UseShellExecute = true }); 
+        }
       }
       catch (Exception ex) { MsgBox.ShowError(ex); }
     }
