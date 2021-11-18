@@ -160,7 +160,7 @@ internal partial class MainForm : Form
   /// </summary>
   private void BindControls()
   {
-    // NB: Bind enums to combos loop-up values before binding them to actual data!
+    // NB: Bind enums to combos look-up values before binding them to actual data!
     CreateStaticBindings();
 
     var binder = new Binder<BindingSource>(BindingSource);
