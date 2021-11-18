@@ -5,7 +5,7 @@ using System.Windows.Forms;
 namespace WatchTracker
 {
   [PropertyChanged.AddINotifyPropertyChangedInterface]
-  public partial class IntegerUpDownControl : UserControl, PW.WinForms.Controls.IValueControl<int, IntegerUpDownControl>
+  public partial class IntegerUpDownControl : UserControl, PW.WinForms.Controls.IValueControl
   {
     public IntegerUpDownControl()
     {
