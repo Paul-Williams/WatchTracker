@@ -18,8 +18,18 @@ namespace WatchTracker.Data
       optionbuilder.UseSqlite(@$"Data Source={new OneDriveDirectory().Databases.File("WatchTracker.sqlitedb")}");
 
 #if DEBUG
-      //optionbuilder.LogTo(Console.WriteLine);
+      optionbuilder.LogTo(x => System.Diagnostics.Trace.WriteLine(x));
 #endif
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+      modelBuilder.UseCollation("BINARY");
+
+      modelBuilder.Entity<WatchItem>().Property(c => c.Title)
+          .UseCollation("NOCASE");
+    }
+
+
   }
 }

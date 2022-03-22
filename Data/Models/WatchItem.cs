@@ -12,7 +12,7 @@ namespace WatchTracker.Data.Models
   {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [MaxLength(256, ErrorMessage = "{0} can have a maximum of {1} characters.")]

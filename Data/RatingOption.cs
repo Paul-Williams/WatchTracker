@@ -1,6 +1,4 @@
-﻿#nullable enable 
-
-namespace WatchTracker.Data
+﻿namespace WatchTracker.Data
 {
   public enum RatingOption
   {

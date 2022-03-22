@@ -1,11 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using PW.Data;
-using PW.Data.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using WatchTracker.Data.Models;
 
 namespace WatchTracker.Data
@@ -41,27 +39,7 @@ namespace WatchTracker.Data
       HasChangesChanged?.Invoke(this, value);
     }
 
-    /// <summary>
-    /// Convenience property 
-    /// </summary>
-    private DbSet<WatchItem> WatchItems => DataContext.WatchItems;
-
-    /// <summary>
-    /// Convenience property 
-    /// </summary>
-    private LocalView<WatchItem> LocalWatchItems => DataContext.WatchItems.Local;
-
-
-
-
-    /// <summary>
-    /// Returns list of WatchItems, ordered by <see cref="WatchItem.Title"/>
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerable<WatchItem> OrderedWatchItems() => LocalWatchItems.OrderBy(x => x.Title);
-
-
-    public bool ContainsTitle(string title) => LocalWatchItems.Any(x => string.Compare(x.Title, title, true) == 0);
+    public bool ContainsTitle(string title) => DataContext.WatchItems.Any(x => string.Compare(x.Title, title, true) == 0);
 
 
     /// <summary>
@@ -70,19 +48,16 @@ namespace WatchTracker.Data
     /// <param name="states">List of watch states to include</param>
     /// <returns></returns>
     /// <exception cref="ArgumentNullException"></exception>
-    public IEnumerable<WatchItem> ItemsWhereStateIn(IList<WatchStateOption> states)
+    public List<WatchItem> ItemsWhereStateIn(WatchStateOption[] states)
     {
       if (states is null) throw new ArgumentNullException(nameof(states));
 
-      // Used for performance only when multiple watch filters are enabled.
-      static HashSet<WatchStateOption> GetHashSet(IEnumerable<WatchStateOption> values) => new(values);
-
       // Return items with the selected state(s).
-      return states.Count switch
+      return states.Length switch
       {
-        0 => Enumerable.Empty<WatchItem>(),
-        1 => LocalWatchItems.Where(item => item.Status == states[0]).OrderBy(x => x.Title),
-        _ => LocalWatchItems.Where(item => GetHashSet(states).Contains(item.Status)).OrderBy(x => x.Title)
+        0 => new List<WatchItem>(),
+        1 => DataContext.WatchItems.Where(item => item.Status == states[0]).OrderBy(x => x.Title).ToList(),
+        _ => DataContext.WatchItems.Where(item => states.Contains(item.Status)).OrderBy(x => x.Title).ToList()
       };
 
     }
@@ -92,7 +67,7 @@ namespace WatchTracker.Data
     /// </summary>    
     public void Add(WatchItem watchItem)
     {
-      WatchItems.Add(watchItem);
+      DataContext.WatchItems.Add(watchItem);
       OnHasChangesChanged(true);
     }
 
@@ -101,10 +76,15 @@ namespace WatchTracker.Data
     /// </summary>
     public void Remove(WatchItem watchItem)
     {
-      WatchItems.Remove(watchItem);
+      DataContext.WatchItems.Remove(watchItem);
       OnHasChangesChanged(true);
-
     }
+
+
+    public List<WatchItem> Where(Expression<Func<WatchItem, bool>> filter) =>
+      DataContext.WatchItems.Where(filter).OrderBy(x => x.Title).ToList();
+
+    public List<WatchItem> All() => DataContext.WatchItems.OrderBy(x => x.Title).ToList();
 
     /// <summary>
     /// Determines if there are unsaved changes to the <see cref="Data.DataContext"/>.

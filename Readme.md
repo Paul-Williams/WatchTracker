@@ -11,6 +11,10 @@ Controls are all data-bound, using <code>PW.WinForms.Binding</code>
 
 Change Log
 ---
+
+[22/03/2022] 
+Ported to EFCore with Sqlite rather than LocalDB for the backend.
+
 [23/02/19] Added spell checking component.
 
 See: https://www.codeproject.com/Articles/265823/i-Spell-Check-and-Control-Extensions-No-Third-Pa

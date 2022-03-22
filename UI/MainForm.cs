@@ -304,7 +304,7 @@ internal partial class MainForm : Form
     }
   }
 
-  private async void Form_Load(object? sender, EventArgs e)
+  private void Form_Load(object? sender, EventArgs e)
   {
     try
     {
@@ -376,23 +376,21 @@ internal partial class MainForm : Form
   /// </summary>
   private List<WatchItem> GetFilteredItemList()
   {
+    if (Repository is null) throw new InvalidOperationException(nameof(Repository) + " should not be null here.");
+
     // Create list where title contains custom filter text
     List<WatchItem> CustomContains() =>
-      Repository!.OrderedWatchItems()
-      .Where(x => x.Title is not null && x.Title.Contains(FilterByTitle.Text, StringComparison.OrdinalIgnoreCase))
-      .ToList();
+      Repository.Where(x => x.Title != null && x.Title.Contains(FilterByTitle.Text));//, StringComparison.OrdinalIgnoreCase));
 
     // Create list where title starts with custom filter text
     List<WatchItem> CustomStartsWith() =>
-      Repository!.OrderedWatchItems()
-      .Where(x => x.Title is not null && x.Title.StartsWith(FilterByTitle.Text, StringComparison.OrdinalIgnoreCase))
-      .ToList();
+      Repository.Where(x => x.Title != null && x.Title.StartsWith(FilterByTitle.Text));//, StringComparison.OrdinalIgnoreCase));
 
     // Create list of all items. I.e. no filter.
-    List<WatchItem> All() => Repository!.OrderedWatchItems().ToList();
+    List<WatchItem> All() => Repository!.All();
 
     // Create list of items who's state matches the enabled states filter.
-    List<WatchItem> Enabled() => Repository!.ItemsWhereStateIn(WatchStateFilter.EnabledWatchStateOptions).ToList();
+    List<WatchItem> Enabled() => Repository!.ItemsWhereStateIn(WatchStateFilter.EnabledWatchStateOptions);
 
     // See if we are filtering by title or state
     return FilterByTitle.IsSet
@@ -400,19 +398,6 @@ internal partial class MainForm : Form
       ? FilterByTitle.FilterType == StringsWhere.Contains ? CustomContains() : CustomStartsWith()
       // For state - Is it all or just a sub-set?
       : WatchStateFilter.AllEnabled ? All() : Enabled();
-
-
-    //if (_customFilterText != string.Empty)
-    //{
-    //  return _customFilterIsContains
-    //    ? Repository.OrderedWatchItems().Where(x => x.Title.Contains(_customFilterText, StringComparison.OrdinalIgnoreCase)).ToList()
-    //    : Repository.OrderedWatchItems().Where(x => x.Title.StartsWith(_customFilterText, StringComparison.OrdinalIgnoreCase)).ToList();
-    //}
-
-    //else return WatchStateFilter.AllEnabled
-    //  ? Repository.OrderedWatchItems().ToList()
-    //  : Repository.OrderedWatchItems(WatchStateFilter.EnabledWatchStateOptions).ToList();
-
   }
 
 
