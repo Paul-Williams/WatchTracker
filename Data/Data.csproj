@@ -22,13 +22,4 @@
 	  <PackageReference Include="PW.Common" Version="3.0.5" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Reference Include="PW.Data.EntityFramework">
-	    <HintPath>C:\tfs\Class Libraries\PW.Data.EntityFramework\PW.Data.EntityFramework\bin\Release\PW.Data.EntityFramework.dll</HintPath>
-	  </Reference>
-	  <Reference Include="PW.Data.LocalDb">
-	    <HintPath>C:\tfs\Class Libraries\PW.Data.LocalDb\PW.Data.LocalDb\bin\Release\PW.Data.LocalDb.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
-
 </Project>
