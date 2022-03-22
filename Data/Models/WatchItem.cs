@@ -2,21 +2,18 @@
 using PropertyChanged;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WatchTracker.Data.Models
 {
-  [AddINotifyPropertyChangedInterface]  
+  [AddINotifyPropertyChangedInterface]
   [Index(nameof(Status))]
   public class WatchItem
   {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     [Required]
     [MaxLength(256, ErrorMessage = "{0} can have a maximum of {1} characters.")]
-    
     public string? Title { get; set; }
 
     public string? Source { get; set; }

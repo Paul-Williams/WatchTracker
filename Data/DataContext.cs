@@ -7,7 +7,17 @@ namespace WatchTracker.Data
   internal class DataContext : DbContext
   {
 
-    public DataContext() => Database.EnsureCreated();
+    public DataContext()
+    {
+      Database.EnsureCreated();
+
+      var connection = Database.GetDbConnection();
+      connection.Open();
+      using var command = connection.CreateCommand();
+      command.CommandText = "PRAGMA journal_mode=MEMORY";
+      command.CommandType = System.Data.CommandType.Text;
+      command.ExecuteNonQuery();
+    }
 
     public virtual DbSet<WatchItem> WatchItems { get; set; } = null!; // Suppress CS8618
 
