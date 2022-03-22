@@ -320,12 +320,17 @@ internal partial class MainForm : Form
         Show();
         Application.DoEvents();
         Application.DoEvents(); // Just to make sure ;)
-        Repository = await Task.Run(() => new Repository(new MdfFileInfo(Program.DatabasePath)));
+        //Repository = await Task.Run(() => new Repository());
+        Repository = new Repository();
 
         // Cannot call RefreshDataSource here as it updates the UI causing X-Thread exception.
-        BindingSource.DataSource = await Task.Run(() => new BindingList<WatchItem>(GetFilteredItemList())).ConfigureAwait(true);
+        // BindingSource.DataSource = await Task.Run(() => new BindingList<WatchItem>(GetFilteredItemList())).ConfigureAwait(true);
+        BindingSource.DataSource = new BindingList<WatchItem>(GetFilteredItemList());
       }
 
+      // Code (commented) below was here.
+      // The following code was above where it says 'Code (commented) below was here' 
+      //
       // NB: Be careful with the location of this line of code.
       // If the event handler is attached before awaiting the initial data-load, 
       // it will cause a cross-thread exception in OnCurrentWatchItemChanged.
@@ -353,11 +358,17 @@ internal partial class MainForm : Form
     try
     {
       BindControls();
+      //Application.DoEvents();
+      //Application.DoEvents(); // Just to make sure ;)
     }
     catch (Exception ex)
     {
       MsgBox.ShowError(ex, "Error binding controls to data.");
     }
+
+
+
+
   }
 
   /// <summary>

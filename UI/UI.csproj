@@ -23,7 +23,7 @@
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
 	  <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All" />
-	  <PackageReference Include="PW.Common" Version="3.0.1" />
+	  <PackageReference Include="PW.Common" Version="3.0.5" />
 	  <PackageReference Include="PW.LaunchPad.AppRegistration" Version="1.0.0" />
 	</ItemGroup>
 

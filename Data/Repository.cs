@@ -1,12 +1,10 @@
-﻿#nullable enable 
-
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PW.Data;
 using PW.Data.EntityFramework;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Linq;
 using WatchTracker.Data.Models;
 
@@ -27,19 +25,10 @@ namespace WatchTracker.Data
     /// Constructor. 
     /// </summary>
     /// <param name="database"></param>
-    public Repository(MdfFileInfo database)
+    public Repository()
     {
-      DataContext = new DataContext(LocalDB.OpenConnection(database), true);
-
-#if DEBUG
-      DataContext.Database.Log = (s) => System.Diagnostics.Trace.WriteLine(s);
-#endif
-
-
+      DataContext = new DataContext();
       DataContext.WatchItems.Load();
-
-
-
     }
 
     /// <summary>
@@ -60,7 +49,7 @@ namespace WatchTracker.Data
     /// <summary>
     /// Convenience property 
     /// </summary>
-    private ObservableCollection<WatchItem> LocalWatchItems => DataContext.WatchItems.Local;
+    private LocalView<WatchItem> LocalWatchItems => DataContext.WatchItems.Local;
 
 
 
@@ -120,7 +109,7 @@ namespace WatchTracker.Data
     /// <summary>
     /// Determines if there are unsaved changes to the <see cref="Data.DataContext"/>.
     /// </summary>
-    public bool HasChanges => DataContext.HasChanges();
+    public bool HasChanges => DataContext.ChangeTracker.HasChanges();
 
 
     /// <summary>
@@ -137,6 +126,10 @@ namespace WatchTracker.Data
       return r;
     }
 
-    public void Dispose() => DataContext?.Dispose();
+    public void Dispose()
+    {
+      DataContext.Dispose();
+      GC.SuppressFinalize(this);
+    }
   }
 }
