@@ -2,14 +2,13 @@
 using PW.Extensions;
 using PW.WinForms;
 using PW.WinForms.DataBinding;
-using static PW.BackingField;
 using System.ComponentModel;
 using System.Diagnostics;
+using WatchTracker.Controls;
 using WatchTracker.Data;
 using WatchTracker.Data.Models;
-using WatchTracker.Controls;
+using static PW.BackingField;
 using static WatchTracker.Controls.InterceptPasteTextBox;
-using PW.Data;
 
 namespace WatchTracker;
 

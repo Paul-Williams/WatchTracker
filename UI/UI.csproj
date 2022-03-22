@@ -4,13 +4,26 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<RootNamespace>WatchTracker</RootNamespace>
 		<AssemblyName>Watch Tracker</AssemblyName>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ServerGarbageCollection>true</ServerGarbageCollection>
 		<ApplicationIcon>Resources\App.ico</ApplicationIcon>
+		<NeutralLanguage>en-GB</NeutralLanguage>
+		<ErrorReport>none</ErrorReport>
+		<AssemblyVersion>2022.02.22</AssemblyVersion>		
+		<FileVersion>2022.02.22</FileVersion>
+		<Copyright>2022 Paul Williams</Copyright>		
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <Deterministic>False</Deterministic>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <Deterministic>False</Deterministic>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -38,12 +51,24 @@
 	  <Reference Include="i00SpellCheck">
 	    <HintPath>C:\tfs\3rd Party Libraries\i00_SpellCheck_20140111\i00SpellCheck\bin\Release\i00SpellCheck.dll</HintPath>
 	  </Reference>
-	  <Reference Include="PW.Data.LocalDb">
-	    <HintPath>C:\Tfs\Class Libraries\PW.Data.LocalDb\PW.Data.LocalDb\bin\Release\PW.Data.LocalDb.dll</HintPath>
-	  </Reference>
 	  <Reference Include="PW.WinForms">
 	    <HintPath>C:\tfs\Class Libraries\PW.WinForms\WinForms\bin\Release\PW.WinForms.dll</HintPath>
 	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Settings.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Settings.settings</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
 	</ItemGroup>
 
 	
