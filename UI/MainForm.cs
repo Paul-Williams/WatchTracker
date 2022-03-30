@@ -1,4 +1,5 @@
 ﻿using i00SpellCheck;
+using Microsoft.EntityFrameworkCore;
 using PW.Extensions;
 using PW.WinForms;
 using PW.WinForms.DataBinding;
@@ -379,11 +380,11 @@ internal partial class MainForm : Form
 
     // Create list where title contains custom filter text
     List<WatchItem> CustomContains() =>
-      Repository.Where(x => x.Title != null && x.Title.Contains(FilterByTitle.Text));//, StringComparison.OrdinalIgnoreCase));
+      Repository.Where(x => EF.Functions.Like(x.Title!, $"%{FilterByTitle.Text}%"));//, StringComparison.OrdinalIgnoreCase));
 
     // Create list where title starts with custom filter text
     List<WatchItem> CustomStartsWith() =>
-      Repository.Where(x => x.Title != null && x.Title.StartsWith(FilterByTitle.Text));//, StringComparison.OrdinalIgnoreCase));
+      Repository.Where(x => EF.Functions.Like(x.Title!, $"{FilterByTitle.Text}%"));//, StringComparison.OrdinalIgnoreCase));
 
     // Create list of all items. I.e. no filter.
     List<WatchItem> All() => Repository!.All();
