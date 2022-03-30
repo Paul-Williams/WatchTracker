@@ -39,7 +39,10 @@ namespace WatchTracker.Data
       HasChangesChanged?.Invoke(this, value);
     }
 
-    public bool ContainsTitle(string title) => DataContext.WatchItems.Any(x => string.Compare(x.Title, title, true) == 0);
+    /// <summary>
+    /// Returns true if an entity exists with the specified title, otherwise returns false.
+    /// </summary>
+    public bool ContainsTitle(string title) => DataContext.WatchItems.Any(x => x.Title == title);
 
 
     /// <summary>
