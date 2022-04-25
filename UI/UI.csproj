@@ -38,6 +38,7 @@
 	  <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All" />
 	  <PackageReference Include="PW.Common" Version="3.0.5" />
 	  <PackageReference Include="PW.LaunchPad.AppRegistration" Version="1.0.0" />
+	  <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml" Version="4.7.0" />
 	</ItemGroup>
 
 	<ItemGroup>
