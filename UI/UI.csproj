@@ -48,9 +48,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Reference Include="i00SpellCheck">
-	    <HintPath>C:\tfs\3rd Party Libraries\i00_SpellCheck_20140111\i00SpellCheck\bin\Release\i00SpellCheck.dll</HintPath>
-	  </Reference>
 	  <Reference Include="PW.WinForms">
 	    <HintPath>C:\tfs\Class Libraries\PW.WinForms\WinForms\bin\Release\PW.WinForms.dll</HintPath>
 	  </Reference>

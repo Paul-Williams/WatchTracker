@@ -1,4 +1,4 @@
-﻿using i00SpellCheck;
+﻿//using i00SpellCheck;
 using Microsoft.EntityFrameworkCore;
 using PW.Extensions;
 using PW.WinForms;
@@ -269,12 +269,12 @@ internal partial class MainForm : Form
     fc.Focus();
   }
 
-  // Enables spell checking for specific controls
-  private void EnableSpellChecking()
-  {
-    CommentsTextBox.EnableSpellCheck();
-    SynopsisTextBox.EnableSpellCheck();
-  }
+  //// Enables spell checking for specific controls
+  //private void EnableSpellChecking()
+  //{
+  //  CommentsTextBox.EnableSpellCheck();
+  //  SynopsisTextBox.EnableSpellCheck();
+  //}
 
   private void Form_Closed(object? sender, FormClosedEventArgs e)
   {
@@ -342,7 +342,7 @@ internal partial class MainForm : Form
       FilterByTitle.TextChanged += (s, e) => RefreshDataSource();
       FilterByTitle.TypeChanged += (s, e) => RefreshDataSource();
 
-      EnableSpellChecking();
+      //EnableSpellChecking();
 
       ToolTips.SetToolTip(OpenButton, "Open the link in browser");
       ToolTips.SetToolTip(SaveButton, "Save changes");
