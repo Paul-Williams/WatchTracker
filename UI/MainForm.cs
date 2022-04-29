@@ -228,7 +228,7 @@ internal partial class MainForm : Form
     var input = InputBoxForm.GetInput();
     if (string.IsNullOrWhiteSpace(input)) return;
 
-    MsgBox.ShowInfo(Repository!.ContainsTitle(input) ? "Watched" : "Not watched", this);
+    MsgBox.ShowInfo(Repository!.ContainsTitle(input) ? "Yes" : "No", this);
   }
 
   private void CommentsTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
