@@ -21,14 +21,16 @@ namespace WatchTracker.Data
 
     public virtual DbSet<WatchItem> WatchItems { get; set; } = null!; // Suppress CS8618
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+      
       // Here is where we tell EFCore that we are using the Sqlite provider and set the file path.
       // Database file does not have to exist as it can be created via Database.EnsureCreated(). See constructor.
-      optionbuilder.UseSqlite(@$"Data Source={new OneDriveDirectory().Databases.File("WatchTracker.sqlitedb")}");
+      optionsBuilder.UseSqlite(@$"Data Source={new OneDriveDirectory().Databases.File("WatchTracker.sqlitedb")}");
 
 #if DEBUG
-      optionbuilder.LogTo(x => System.Diagnostics.Trace.WriteLine(x));
+      optionsBuilder.EnableSensitiveDataLogging();
+      optionsBuilder.LogTo(x => System.Diagnostics.Trace.WriteLine(x));
 #endif
     }
 
@@ -38,6 +40,14 @@ namespace WatchTracker.Data
 
       modelBuilder.Entity<WatchItem>().Property(c => c.Title)
           .UseCollation("NOCASE");
+
+
+      // See: https://docs.microsoft.com/en-us/ef/core/change-tracking/change-detection#configuring-notification-entities
+      modelBuilder.HasChangeTrackingStrategy(ChangeTrackingStrategy.ChangingAndChangedNotifications);
+      
+      
+     
+
     }
 
 

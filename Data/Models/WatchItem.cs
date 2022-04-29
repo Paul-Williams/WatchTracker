@@ -5,32 +5,44 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WatchTracker.Data.Models
 {
-  [AddINotifyPropertyChangedInterface]
+  //[AddINotifyPropertyChangedInterface]
+  [DoNotNotify]
   [Index(nameof(Status))]
-  public class WatchItem
+  public class WatchItem : NotifyingEntity
   {
+    private int id;
+    private string? title;
+    private string? source;
+    private WatchStateOption status;
+    private ShowTypeOption showType = ShowTypeOption.Series;
+    private string? comments;
+    private RatingOption rating;
+    private string? synopsis;
+    private int nextEpisode;
+    private bool isAnime;
+
     [Key]
-    public int Id { get; set; }
+    public int Id { get => id; set => SetWithNotify(value, ref id); }
 
     [Required]
     [MaxLength(256, ErrorMessage = "{0} can have a maximum of {1} characters.")]
-    public string? Title { get; set; }
+    public string? Title { get => title; set => SetWithNotify(value, ref title); }
 
-    public string? Source { get; set; }
+    public string? Source { get => source; set => SetWithNotify(value, ref source); }
 
-    public WatchStateOption Status { get; set; }
+    public WatchStateOption Status { get => status; set => SetWithNotify(value, ref status); }
 
-    public ShowTypeOption ShowType { get; set; } = ShowTypeOption.Series;
+    public ShowTypeOption ShowType { get => showType; set => SetWithNotify(value, ref showType); }
 
-    public string? Comments { get; set; }
+    public string? Comments { get => comments; set => SetWithNotify(value, ref comments); }
 
-    public RatingOption Rating { get; set; }
+    public RatingOption Rating { get => rating; set => SetWithNotify(value, ref rating); }
 
-    public string? Synopsis { get; set; }
+    public string? Synopsis { get => synopsis; set => SetWithNotify(value, ref synopsis); }
 
-    public int NextEpisode { get; set; }
+    public int NextEpisode { get => nextEpisode; set => SetWithNotify(value, ref nextEpisode); }
 
-    public bool IsAnime { get; set; }
+    public bool IsAnime { get => isAnime; set => SetWithNotify(value, ref isAnime); }
 
   }
 }
