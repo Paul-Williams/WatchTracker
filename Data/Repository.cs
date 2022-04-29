@@ -26,12 +26,24 @@ namespace WatchTracker.Data
     public Repository()
     {
       DataContext = new DataContext();
-      DataContext.WatchItems.Load();
+      
+
+      // Preloading was a hang-over from the previous way the repository was designed.
+      // It does not appear to be useful anymore, but will leave it here, commented out, and see if it effects anything.
+      // <EDIT> Found that this does cause a bug:
+      // If a new item is added and accepted but not saved then it will disappear from the list if the filter is changed.
+      // It does still exist and can be saved later, but it will be missing from the UI until this happens.
+      // Gonna leave it like that for now though.
+      // DataContext.WatchItems.Load();  
     }
 
     /// <summary>
     /// Executed where ever a method makes changes to data, which might need saving.
     /// </summary>
+    /// <Remarks>
+    /// Don't think this is required now that we are using EFCore. 
+    /// EFCore raises an event when there are changes, EF6 did not.
+    /// </Remarks>
     //[PropertyChanged.SuppressPropertyChangedWarnings]
     private void OnHasChangesChanged(bool value)
     {
