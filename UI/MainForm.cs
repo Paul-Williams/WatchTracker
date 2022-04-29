@@ -1,5 +1,4 @@
-﻿//using i00SpellCheck;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PW.Extensions;
 using PW.WinForms;
 using PW.WinForms.DataBinding;
@@ -92,7 +91,9 @@ internal partial class MainForm : Form
     catch (Exception ex) { MsgBox.ShowError(ex); }
   }
 
-  // Adds a new item to the binding source and prevents navigation away from it.
+  /// <summary>
+  /// Adds a new item to the binding source and prevents navigation away from it until it is accepted or canceled.
+  /// </summary>
   private void AddNewItem()
   {
     try
@@ -366,9 +367,6 @@ internal partial class MainForm : Form
       MsgBox.ShowError(ex, "Error binding controls to data.");
     }
 
-
-
-
   }
 
   /// <summary>
@@ -379,18 +377,16 @@ internal partial class MainForm : Form
     if (Repository is null) throw new InvalidOperationException(nameof(Repository) + " should not be null here.");
 
     // Create list where title contains custom filter text
-    List<WatchItem> CustomContains() =>
-      Repository.Where(x => EF.Functions.Like(x.Title!, $"%{FilterByTitle.Text}%"));//, StringComparison.OrdinalIgnoreCase));
+    List<WatchItem> CustomContains() => Repository.WhereTitleContains(FilterByTitle.Text);
 
     // Create list where title starts with custom filter text
-    List<WatchItem> CustomStartsWith() =>
-      Repository.Where(x => EF.Functions.Like(x.Title!, $"{FilterByTitle.Text}%"));//, StringComparison.OrdinalIgnoreCase));
+    List<WatchItem> CustomStartsWith() => Repository.WhereTitleStartsWith(FilterByTitle.Text);
 
     // Create list of all items. I.e. no filter.
-    List<WatchItem> All() => Repository!.All();
+    List<WatchItem> All() => Repository.All();
 
     // Create list of items who's state matches the enabled states filter.
-    List<WatchItem> Enabled() => Repository!.ItemsWhereStateIn(WatchStateFilter.EnabledWatchStateOptions);
+    List<WatchItem> Enabled() => Repository.ItemsWhereStateIn(WatchStateFilter.EnabledWatchStateOptions);
 
     // See if we are filtering by title or state
     return FilterByTitle.IsSet
