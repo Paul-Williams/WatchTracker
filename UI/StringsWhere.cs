@@ -1,17 +1,14 @@
-﻿#nullable enable 
+﻿namespace WatchTracker;
 
-namespace WatchTracker
-{
-  /// <summary>
-  /// Options for filtering strings
-  /// </summary>
+/// <summary>
+/// Options for filtering strings
+/// </summary>
 public enum StringsWhere
-  {
-    ///<summary>Strings where: contains.</summary>
-    Contains,
+{
+  ///<summary>Strings where: contains.</summary>
+  Contains,
 
-    ///<summary>Strings where: starts with.</summary>
-    StartsWith
-  }
-
+  ///<summary>Strings where: starts with.</summary>
+  StartsWith
 }
+

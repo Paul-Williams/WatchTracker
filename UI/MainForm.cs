@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PW.Extensions;
+﻿using PW.Extensions;
 using PW.WinForms;
 using PW.WinForms.DataBinding;
 using System.ComponentModel;
