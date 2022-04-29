@@ -305,7 +305,7 @@ internal partial class MainForm : Form
     }
   }
 
-  private void Form_Load(object? sender, EventArgs e)
+  private async void Form_Load(object? sender, EventArgs e)
   {
     try
     {
@@ -318,14 +318,7 @@ internal partial class MainForm : Form
 
       using (AutoResetControlDisabler.Disable(this))
       {
-        Show();
-        Application.DoEvents();
-        Application.DoEvents(); // Just to make sure ;)
-        //Repository = await Task.Run(() => new Repository());
-        Repository = new Repository();
-
-        // Cannot call RefreshDataSource here as it updates the UI causing X-Thread exception.
-        // BindingSource.DataSource = await Task.Run(() => new BindingList<WatchItem>(GetFilteredItemList())).ConfigureAwait(true);
+        Repository = await Task.Run(() => new Repository());
         BindingSource.DataSource = new BindingList<WatchItem>(GetFilteredItemList());
       }
 
@@ -376,24 +369,15 @@ internal partial class MainForm : Form
   {
     if (Repository is null) throw new InvalidOperationException(nameof(Repository) + " should not be null here.");
 
-    // Create list where title contains custom filter text
-    List<WatchItem> CustomContains() => Repository.WhereTitleContains(FilterByTitle.Text);
+    return (FilterByTitle.IsSet, FilterByTitle.FilterType, WatchStateFilter.AllEnabled) switch
+    {
+      (true, StringsWhere.Contains, _) => Repository.WhereTitleContains(FilterByTitle.Text),
+      (true, StringsWhere.StartsWith, _) => Repository.WhereTitleStartsWith(FilterByTitle.Text),
+      (false, _, true) => Repository.All(),
+      (false, _, false) => Repository.ItemsWhereStateIn(WatchStateFilter.EnabledWatchStateOptions),
+      _ => throw new InvalidOperationException("No switch expression match.")
+    };
 
-    // Create list where title starts with custom filter text
-    List<WatchItem> CustomStartsWith() => Repository.WhereTitleStartsWith(FilterByTitle.Text);
-
-    // Create list of all items. I.e. no filter.
-    List<WatchItem> All() => Repository.All();
-
-    // Create list of items who's state matches the enabled states filter.
-    List<WatchItem> Enabled() => Repository.ItemsWhereStateIn(WatchStateFilter.EnabledWatchStateOptions);
-
-    // See if we are filtering by title or state
-    return FilterByTitle.IsSet
-      // For title - Is it a contains or starts-with clause?
-      ? FilterByTitle.FilterType == StringsWhere.Contains ? CustomContains() : CustomStartsWith()
-      // For state - Is it all or just a sub-set?
-      : WatchStateFilter.AllEnabled ? All() : Enabled();
   }
 
 
