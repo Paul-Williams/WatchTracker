@@ -13,8 +13,8 @@
 		<ApplicationIcon>Resources\App.ico</ApplicationIcon>
 		<NeutralLanguage>en-GB</NeutralLanguage>
 		<ErrorReport>none</ErrorReport>
-		<AssemblyVersion>2022.02.22</AssemblyVersion>		
-		<FileVersion>2022.02.22</FileVersion>
+		<AssemblyVersion>2022.04.29</AssemblyVersion>		
+		<FileVersion>2022.04.29</FileVersion>
 		<Copyright>2022 Paul Williams</Copyright>		
 	</PropertyGroup>
 
