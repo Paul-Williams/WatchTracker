@@ -150,8 +150,8 @@ internal partial class MainForm : Form
     FilterByTitleToolStripMenuItem.Click += (s, e) => DisplayFilterByTitleControl();
 
     // Text Boxes
-    TitleTextBox.BeforePaste += TrimPastedTextHandler;
-    SourceTextBox.BeforePaste += TrimPastedTextHandler;
+    TitleTextBox.BeforePast += TrimPastedTextHandler;
+    SourceTextBox.BeforePast += TrimPastedTextHandler;
 
   }
 

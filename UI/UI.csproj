@@ -17,6 +17,7 @@
 		<FileVersion>2022.04.29</FileVersion>
 		<Copyright>2022 Paul Williams</Copyright>
 		<LangVersion>preview</LangVersion>
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
