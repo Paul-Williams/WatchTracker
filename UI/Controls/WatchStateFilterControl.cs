@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows.Forms;
 using WatchTracker.Data;
 using PW.WinForms.Controls;
+using System.Diagnostics;
 
 namespace WatchTracker {
   public partial class WatchStateFilterControl : DropDownControl {
@@ -31,9 +32,12 @@ namespace WatchTracker {
       var checkboxes = new List<EnumCheckBox<WatchStateOption>>(PW.Helpers.EnumHelper.Count<WatchStateOption>());
 
       foreach (var value in EnumValues.WatchStateOptions) {
-        var checkbox = new EnumCheckBox<WatchStateOption>(value) { Text = value.DisplayName(), };
-        checkbox.Location = nextControlLocation;
-        checkbox.AutoSize = true;
+        var checkbox = new EnumCheckBox<WatchStateOption>(value)
+        {
+          Text = value.DisplayName(),
+          Location = nextControlLocation,
+          AutoSize = true
+        };
         checkbox.Click += (s, e) => SyncUi();
         panel1.Controls.Add(checkbox);
         checkboxes.Add(checkbox);

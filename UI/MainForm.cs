@@ -317,7 +317,7 @@ internal partial class MainForm : Form
 
       using (AutoResetControlDisabler.Disable(this))
       {
-        Repository = await Task.Run(() => new Repository());
+        Repository = await Task.Run(() => new Repository(Program.DatabaseFilePath));
         BindingSource.DataSource = new BindingList<WatchItem>(GetFilteredItemList());
       }
 

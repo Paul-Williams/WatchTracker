@@ -15,7 +15,8 @@
 		<ErrorReport>none</ErrorReport>
 		<AssemblyVersion>2022.04.29</AssemblyVersion>		
 		<FileVersion>2022.04.29</FileVersion>
-		<Copyright>2022 Paul Williams</Copyright>		
+		<Copyright>2022 Paul Williams</Copyright>
+		<LangVersion>preview</LangVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -31,14 +32,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Fody" Version="6.6.0">
+	  <PackageReference Include="Fody" Version="6.6.2">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
-	  <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All" />
-	  <PackageReference Include="PW.Common" Version="3.0.5" />
-	  <PackageReference Include="PW.LaunchPad.AppRegistration" Version="1.0.0" />
-	  <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml" Version="4.7.0" />
+	  <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" PrivateAssets="All" />
+	  <PackageReference Include="PW.Common" Version="4.0.12" />
 	</ItemGroup>
 
 	<ItemGroup>

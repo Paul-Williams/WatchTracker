@@ -1,20 +1,21 @@
-﻿namespace WatchTracker;
+﻿using PW.IO.FileSystemObjects;
+
+namespace WatchTracker;
 
 internal static class Program
 {
+
+  const string EnvVar = "WatchTrackDb";
+  const string DbFileNameString = "WatchTracker.sqlitedb";
+
+  public static FilePath DatabaseFilePath { get; private set; } = null!;
+
   /// <summary>
   /// The main entry point for the application.
   /// </summary>
   [STAThread]
   static void Main()
-  {
-
-    //// Delete after data transition
-    //Data.Transition.PortData();
-    //return;
-    ////
-
-
+  {   
     Application.EnableVisualStyles();
     Application.SetCompatibleTextRenderingDefault(false);
 
@@ -22,20 +23,30 @@ internal static class Program
       PW.LaunchPad.RegistrationManager.Register("Watch Tracker", Application.ExecutablePath);
 #endif
 
+    if (!TrySetDatabasePath()) return;
     var form = new MainForm();
     Application.Run(form);
   }
 
-  //// Static part of the connection string with placeholder for dynamic replacement of directory path.
-  //private const string ConnectionStringTemplate = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=WatchTracker;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\WatchTracker.mdf";
+  private static bool TrySetDatabasePath()
+  {
+    var dbDirectoryPathString = Environment.GetEnvironmentVariable(EnvVar, EnvironmentVariableTarget.User);
 
-  //// Path to the 'DB' subdirectory within the OneDrive directory.
-  //private static string DbDirectoryPath => Path.Combine(PW.IO.KnownFolders.GetPath(PW.IO.KnownFolder.OneDrive), "DB");
+    if (dbDirectoryPathString is not null && !string.IsNullOrWhiteSpace(dbDirectoryPathString) && Directory.Exists(dbDirectoryPathString))
+      DatabaseFilePath = (FilePath)Path.Combine(dbDirectoryPathString, DbFileNameString);
+    else
+    {
+      var (ok, selectedDirectoryPath) = PW.WinForms.Dialogs.BrowseForFolder("Select folder containing database", true);
 
-  //// Path to the database file (mdf)
-  //public static string DatabasePath = Path.Combine(DbDirectoryPath, "WatchTracker.mdf");
+      if (ok)
+      {
+        Environment.SetEnvironmentVariable(EnvVar, selectedDirectoryPath, EnvironmentVariableTarget.User);
+        DatabaseFilePath = (FilePath)Path.Combine(selectedDirectoryPath, DbFileNameString);
+      }
 
-  //// Constructs the actual connection string, with the directory path placeholder already replaced.
-  //internal static string ConnectionString => ConnectionStringTemplate.Replace("|DataDirectory|", DbDirectoryPath);
+    }
+
+    return DatabaseFilePath is not null;
+  }
 
 }

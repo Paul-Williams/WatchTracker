@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PW.IO.FileSystemObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,9 +23,14 @@ public class Repository : IDisposable, INotifyPropertyChanged
   /// Constructor. 
   /// </summary>
   /// <param name="database"></param>
-  public Repository()
+  public Repository(FilePath databaseFilePath!!)
   {
-    DataContext = new DataContext();
+    // Here is where we tell EFCore that we are using the Sqlite provider and set the file path.
+    // Database file does not have to exist as it can be created via Database.EnsureCreated(). See constructor.
+    var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
+    optionsBuilder.UseSqlite(@$"Data Source={databaseFilePath.Value}");
+
+    DataContext = new DataContext(optionsBuilder.Options);
     DataContext.ChangeTracker.StateChanged += (o, e) => OnEntityStateChanged();
   }
 
@@ -42,10 +48,8 @@ public class Repository : IDisposable, INotifyPropertyChanged
   /// <param name="states">List of watch states to include</param>
   /// <returns></returns>
   /// <exception cref="ArgumentNullException"></exception>
-  public List<WatchItem> ItemsWhereStateIn(WatchStateOption[] states)
+  public List<WatchItem> ItemsWhereStateIn(WatchStateOption[] states!!)
   {
-    if (states is null) throw new ArgumentNullException(nameof(states));
-
     // Return items with the selected state(s).
     return states.Length switch
     {
