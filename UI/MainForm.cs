@@ -7,7 +7,7 @@ using WatchTracker.Controls;
 using WatchTracker.Data;
 using WatchTracker.Data.Models;
 using static PW.BackingField;
-using static WatchTracker.Controls.InterceptPasteTextBox;
+
 
 namespace WatchTracker;
 
@@ -281,8 +281,11 @@ internal partial class MainForm : Form
     try
     {
       // Persist the current watch-state filter for next session.
-      Properties.Settings.Default.WatchStateFilter = WatchStateFilter.EnabledWatchStateOptions;
-      Properties.Settings.Default.Save();
+      var settings = Properties.Settings.Default;
+      settings.WatchStateFilter = WatchStateFilter.EnabledWatchStateOptions;
+
+      if (BindingSource.Current is WatchItem item) settings.SelectedWatchItemId = item.Id;
+      settings.Save();
 
       // Repository may be null here if the form is closed shortly after opening.
       if (Repository is Repository repo && repo.HasChanges)
@@ -341,7 +344,6 @@ internal partial class MainForm : Form
       ToolTips.SetToolTip(SaveButton, "Save changes");
       ToolTips.SetToolTip(AcceptNewItemButton, "Accept adding new item");
       ToolTips.SetToolTip(CancelNewItemButton, "Cancel adding new item");
-
     }
     catch (Exception ex)
     {
@@ -351,8 +353,9 @@ internal partial class MainForm : Form
     try
     {
       BindControls();
-      //Application.DoEvents();
-      //Application.DoEvents(); // Just to make sure ;)
+      // Attempt to restore the selection of WatchItem from previous session
+      var id = Properties.Settings.Default.SelectedWatchItemId;
+      if (id != 0 && Repository!.Find(id) is WatchItem item) TitleListBox.SelectedItem = item;
     }
     catch (Exception ex)
     {
@@ -479,7 +482,7 @@ internal partial class MainForm : Form
   /// <summary>
   /// Trim text pasted into InterceptPasteTextbox controls.
   /// </summary>
-  private void TrimPastedTextHandler(object sender, BeforePasteEventArgs e) => e.Text = e.Text.Trim();
+  private void TrimPastedTextHandler(object sender, InterceptPasteTextBox.BeforePasteEventArgs e) => e.Text = e.Text.Trim();
 
   #endregion Private Methods
 

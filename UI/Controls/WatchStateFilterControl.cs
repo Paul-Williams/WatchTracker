@@ -10,9 +10,11 @@ using System.Windows.Forms;
 using WatchTracker.Data;
 using PW.WinForms.Controls;
 using System.Diagnostics;
+using WatchTracker.Data.Models;
 
-namespace WatchTracker {
-  public partial class WatchStateFilterControl : DropDownControl {
+namespace WatchTracker
+{
+    public partial class WatchStateFilterControl : DropDownControl {
 
     #region Public Constructors
 

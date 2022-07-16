@@ -12,7 +12,7 @@ namespace WatchTracker.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,12 +25,24 @@ namespace WatchTracker.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public WatchTracker.Data.WatchStateOption[] WatchStateFilter {
+        public WatchTracker.Data.Models.WatchStateOption[] WatchStateFilter {
             get {
-                return ((WatchTracker.Data.WatchStateOption[])(this["WatchStateFilter"]));
+                return ((WatchTracker.Data.Models.WatchStateOption[])(this["WatchStateFilter"]));
             }
             set {
                 this["WatchStateFilter"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SelectedWatchItemId {
+            get {
+                return ((int)(this["SelectedWatchItemId"]));
+            }
+            set {
+                this["SelectedWatchItemId"] = value;
             }
         }
     }

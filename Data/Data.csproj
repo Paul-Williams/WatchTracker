@@ -16,10 +16,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.5" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.7" />
 	  <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" PrivateAssets="All" />
-	  <PackageReference Include="PW.Common" Version="4.0.12" />
+	  <PackageReference Include="PW.Common" Version="5.0.2" />
 	</ItemGroup>
 
 </Project>

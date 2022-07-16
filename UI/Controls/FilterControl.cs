@@ -10,11 +10,11 @@ namespace WatchTracker.Controls
     // Used to restore previous filter when dialog is canceled.
     private string InitialFilterText = string.Empty;
 
-    public void Initialize(StringFilterSettings settings!!)
+    public void Initialize(StringFilterSettings settings)
     {
       if (Settings is not null) throw new InvalidOperationException($"{nameof(Initialize)} can only be called once.");
 
-      Settings = settings;
+      Settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
       var binder = new PW.WinForms.DataBinding.Binder<StringFilterSettings>(Settings);
       binder.BindText(FilterTextBox, nameof(Settings.Text));
