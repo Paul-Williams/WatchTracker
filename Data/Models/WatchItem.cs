@@ -20,6 +20,7 @@ public class WatchItem : NotifyingEntity
   private string? synopsis;
   private int nextEpisode;
   private bool isAnime;
+  private DateOnly? dateAdded;
 
   [Key]
   public int Id { get => id; set => SetWithNotify(value, ref id); }
@@ -43,5 +44,8 @@ public class WatchItem : NotifyingEntity
   public int NextEpisode { get => nextEpisode; set => SetWithNotify(value, ref nextEpisode); }
 
   public bool IsAnime { get => isAnime; set => SetWithNotify(value, ref isAnime); }
+
+  public DateOnly? DateAdded { get => dateAdded; set => SetWithNotify(value, ref dateAdded);
+}
 
 }

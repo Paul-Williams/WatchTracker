@@ -23,7 +23,7 @@ public abstract class NotifyingEntity : INotifyPropertyChanging, INotifyProperty
   /// <param name="value">The new value for the backing field.</param>
   /// <param name="field">The backing field to be set.</param>
   /// <param name="propertyName">This does not need to be supplied as <see cref="CallerMemberNameAttribute"/> is used.</param>
-  protected void SetWithNotify<T>(T value, ref T field, [CallerMemberName] string propertyName = "")
+  protected void SetWithNotify<T>(T? value, ref T? field, [CallerMemberName] string propertyName = "")
   {
     // The code from the above link did not check if the two values were the same and notified anyway.
     // This was causing EFCore to report changes where there were none.

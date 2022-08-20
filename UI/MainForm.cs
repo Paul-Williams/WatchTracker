@@ -98,7 +98,7 @@ internal partial class MainForm : Form
     try
     {
       SetUiMode(UiModeOption.AddingNewItem);
-      BindingSource.Position = BindingSource.Add(new WatchItem() { Status = WatchStateOption.Watch });
+      BindingSource.Position = BindingSource.Add(new WatchItem() { Status = WatchStateOption.Watch, DateAdded = DateOnly.FromDateTime(DateTime.Now) });
       TitleTextBox.Focus();
     }
     catch (Exception ex) { MsgBox.ShowError(ex); }
