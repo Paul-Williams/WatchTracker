@@ -168,7 +168,7 @@ internal partial class MainForm : Form
     binder.BindText(SourceTextBox, nameof(WatchItem.Source), null!, ConvertEventHandlers.EmptyStringToNull);
     binder.BindText(CommentsTextBox, nameof(WatchItem.Comments), null!, ConvertEventHandlers.EmptyStringToNull);
     binder.BindText(SynopsisTextBox, nameof(WatchItem.Synopsis), null!, ConvertEventHandlers.EmptyStringToNull);
-    binder.BindChecked(IsAnimeCheckBox, nameof(WatchItem.IsAnime));
+    binder.BindChecked(IsAnimeCheckBox, nameof(WatchItem.IsAnime));    
 
     // These bindings do work, but are not fired until after the control looses focus
     binder.BindSelectedItem(StatusComboBox, nameof(WatchItem.Status));
@@ -188,6 +188,11 @@ internal partial class MainForm : Form
     RatingComboBox.SelectedIndexChanged += (s, e) => switchFocus();
     ShowTypeComboBox.SelectedIndexChanged += (s, e) => switchFocus();
 
+    // Bind controls to settings
+    var settingsBinder = new Binder<WatchTracker.Properties.Settings>(Properties.Settings.Default);
+    settingsBinder.BindChecked(UseEdgeCheckBox, nameof(Properties.Settings.UseEdge));
+
+
   }
 
   /// <summary>
@@ -199,6 +204,8 @@ internal partial class MainForm : Form
     {
       if (BindingSource.Current is WatchItem item && item.Source is string source && source.IsUrl())
       {
+        if (Properties.Settings.Default.UseEdge) source = "microsoft-edge:" + source;
+
         Process.Start(new ProcessStartInfo(source) { UseShellExecute = true });
       }
     }
