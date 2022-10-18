@@ -29,7 +29,7 @@ public class Repository : IDisposable, INotifyPropertyChanged
     // Here is where we tell EFCore that we are using the Sqlite provider and set the file path.
     // Database file does not have to exist as it can be created via Database.EnsureCreated(). See constructor.
     var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-    optionsBuilder.UseSqlite(@$"Data Source={databaseFilePath.Path}");
+    optionsBuilder.UseSqlite(@$"Data Source={databaseFilePath}");
 
     DataContext = new DataContext(optionsBuilder.Options);
     DataContext.ChangeTracker.StateChanged += (o, e) => OnEntityStateChanged();
