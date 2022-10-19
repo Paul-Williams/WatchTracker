@@ -5,23 +5,23 @@ namespace WatchTracker.Controls
   internal partial class FilterControl : FormControl
   {
 
-    private StringFilterSettings? Settings { get; set; }
+    private StringFilter? Settings { get; set; }
 
     // Used to restore previous filter when dialog is canceled.
     private string InitialFilterText = string.Empty;
 
-    public void Initialize(StringFilterSettings settings)
+    public void Initialize(StringFilter settings)
     {
       if (Settings is not null) throw new InvalidOperationException($"{nameof(Initialize)} can only be called once.");
 
       Settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
-      var binder = new PW.WinForms.DataBinding.Binder<StringFilterSettings>(Settings);
-      binder.BindText(FilterTextBox, nameof(Settings.Text));
+      var binder = new PW.WinForms.DataBinding.Binder<StringFilter>(Settings);
+      binder.BindText(FilterTextBox, nameof(Settings.FilterText));
 
-      InitialFilterText = settings.Text;
+      InitialFilterText = settings.FilterText;
 
-      if (Settings.FilterType == StringsWhere.Contains) FilterMethodContainsRadioButton.Checked = true;
+      if (Settings.FilterType == StringsThat.Contain) FilterMethodContainsRadioButton.Checked = true;
       else FilterStartsWithRadioButton.Checked = true;
 
     }
@@ -30,7 +30,7 @@ namespace WatchTracker.Controls
     {
       base.OnClose();
       // Restore previous filter when dialog is canceled.
-      if (Result == DialogResult.Cancel && Settings is not null) Settings.Text = InitialFilterText;
+      if (Result == DialogResult.Cancel && Settings is not null) Settings.FilterText = InitialFilterText;
     }
 
     protected override void OnLoad(EventArgs e)
@@ -45,7 +45,7 @@ namespace WatchTracker.Controls
     private void SyncSettingsFilterTypeToUI(object? sender, EventArgs e)
     {
       if (Settings is null) return;
-      Settings.FilterType = FilterMethodContainsRadioButton.Checked ? StringsWhere.Contains : StringsWhere.StartsWith;
+      Settings.FilterType = FilterMethodContainsRadioButton.Checked ? StringsThat.Contain : StringsThat.StartWith;
     }
 
     public FilterControl()
@@ -63,7 +63,7 @@ namespace WatchTracker.Controls
     private void ClearFilterButton_Click(object sender, EventArgs e)
     {
       if (Settings is null) return;
-      Settings.Text = string.Empty;
+      Settings.FilterText = string.Empty;
     }
   }
 }

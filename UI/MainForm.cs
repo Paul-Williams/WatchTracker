@@ -15,6 +15,7 @@ internal partial class MainForm : Form
 {
   #region Private Fields
 
+  // Required to be field as is passed byref
   private UiModeOption _currentUiMode = UiModeOption.Normal;
 
   #endregion Private Fields
@@ -27,7 +28,13 @@ internal partial class MainForm : Form
   public MainForm()
   {
     InitializeComponent();
-    AttachControlEventMethodHandlers();
+    AttachControlEventHandlers();
+
+    // Respostory creation is awaited, so cannot be done in the constructor.
+    // We will instantiate it during Form.Load and throw an exception if it is still null.
+    // Therefore the rest of the code can treat it as non-nullable.
+    // This line of code is simply to avoid warnings.
+    Repository = null!;
   }
 
   #endregion Public Constructors
@@ -49,13 +56,13 @@ internal partial class MainForm : Form
   /// </summary>
   private BindingSource BindingSource { get; } = new BindingSource() { DataSource = typeof(WatchItem) };
 
-  // Specifically for settings the Enabled state of the Open button. 
+  // Specifically for setting the Enabled state of the Open button. 
   private bool CurrentItemHasUrl =>
     BindingSource.Current is WatchItem item
     && item.Source is string source
     && source.IsUrl();
 
-  private StringFilterSettings FilterByTitle { get; } = new StringFilterSettings();
+  private StringFilter TitleFilter { get; } = new StringFilter();
 
   /// <summary>
   /// Determines whether the 'filter by title' control is currently displayed.
@@ -67,10 +74,9 @@ internal partial class MainForm : Form
   /// </summary>
   private Point FilterControlLocation { get; set; } = new Point(490, 195);
 
-  // NB: All access calls to Repository use ! to suppress CS8602 nullable dereference warnings.
   // Instantiating repository here or in the constructor caused a long delay before the app was displayed.
   // The repository is now instantiated in Form_Load and we will must ensure nothing attempts to access it before this.
-  private Repository? Repository { get; set; }
+  private Repository Repository { get; set; }
 
   #endregion Private Properties
 
@@ -83,7 +89,7 @@ internal partial class MainForm : Form
   {
     try
     {
-      Repository!.Add((WatchItem)BindingSource.Current);
+      Repository.Add((WatchItem)BindingSource.Current);
       SetUiMode(UiModeOption.Normal);
       OnDataChanged();
     }
@@ -107,7 +113,7 @@ internal partial class MainForm : Form
   /// <summary>
   /// Deletes the selected item from both the binding source and repository.
   /// </summary>
-  private void AskUserAndDeleteSelectedItem()
+  private void DeleteSelectedItemWithUserConfirmation()
   {
     try
     {
@@ -115,7 +121,7 @@ internal partial class MainForm : Form
       {
         if (MsgBox.ShowQuestion($"Delete watch item '{item.Title}'?") == MsgBox.QuestionResult.Yes)
         {
-          Repository!.Remove(item);
+          Repository.Remove(item);
           BindingSource.Remove(item);
         }
       }
@@ -129,7 +135,7 @@ internal partial class MainForm : Form
   /// Do not attach anything to do with data here otherwise cross-thread exceptions will occur in Form_Load.
   /// This is due to the data being initially loaded using await.
   /// </summary>
-  private void AttachControlEventMethodHandlers()
+  private void AttachControlEventHandlers()
   {
     // Form
     Load += Form_Load;
@@ -145,7 +151,7 @@ internal partial class MainForm : Form
 
     // Menu Items
     AddNewMenuItem.Click += (s, ea) => AddNewItem();
-    DeleteSelectedMenuItem.Click += (s, ea) => AskUserAndDeleteSelectedItem();
+    DeleteSelectedMenuItem.Click += (s, ea) => DeleteSelectedItemWithUserConfirmation();
     HaveIWatchedMenuItem.Click += (s, ea) => CheckIfWatched();
     FilterByTitleToolStripMenuItem.Click += (s, e) => DisplayFilterByTitleControl();
 
@@ -163,19 +169,7 @@ internal partial class MainForm : Form
     // NB: Bind enums to combos look-up values before binding them to actual data!
     CreateStaticBindings();
 
-    var binder = new Binder<BindingSource>(BindingSource);
-    binder.BindText(TitleTextBox, nameof(WatchItem.Title));
-    binder.BindText(SourceTextBox, nameof(WatchItem.Source), null!, ConvertEventHandlers.EmptyStringToNull);
-    binder.BindText(CommentsTextBox, nameof(WatchItem.Comments), null!, ConvertEventHandlers.EmptyStringToNull);
-    binder.BindText(SynopsisTextBox, nameof(WatchItem.Synopsis), null!, ConvertEventHandlers.EmptyStringToNull);
-    binder.BindChecked(IsAnimeCheckBox, nameof(WatchItem.IsAnime));    
-
-    // These bindings do work, but are not fired until after the control looses focus
-    binder.BindSelectedItem(StatusComboBox, nameof(WatchItem.Status));
-    binder.BindSelectedItem(RatingComboBox, nameof(WatchItem.Rating));
-    binder.BindSelectedItem(ShowTypeComboBox, nameof(WatchItem.ShowType));
-    binder.BindList(TitleListBox, x => x, nameof(WatchItem.Title));
-    binder.BindValue(EpisodeUpDown, nameof(WatchItem.NextEpisode));
+    BindDataControls();
 
     // Action used to switch focus from ComboBoxes in order to trigger binding to update.
     // [27/01/21][BUGFIX] Don't switch focus when 'filter by title' control is open.
@@ -188,11 +182,32 @@ internal partial class MainForm : Form
     RatingComboBox.SelectedIndexChanged += (s, e) => switchFocus();
     ShowTypeComboBox.SelectedIndexChanged += (s, e) => switchFocus();
 
+    BindSettingsControls();
+
+  }
+
+  private void BindSettingsControls()
+  {
     // Bind controls to settings
     var settingsBinder = new Binder<WatchTracker.Properties.Settings>(Properties.Settings.Default);
     settingsBinder.BindChecked(UseEdgeCheckBox, nameof(Properties.Settings.UseEdge));
+  }
 
+  private void BindDataControls()
+  {
+    var dataBinder = new Binder<BindingSource>(BindingSource);
+    dataBinder.BindText(TitleTextBox, nameof(WatchItem.Title));
+    dataBinder.BindText(SourceTextBox, nameof(WatchItem.Source), null!, ConvertEventHandlers.EmptyStringToNull);
+    dataBinder.BindText(CommentsTextBox, nameof(WatchItem.Comments), null!, ConvertEventHandlers.EmptyStringToNull);
+    dataBinder.BindText(SynopsisTextBox, nameof(WatchItem.Synopsis), null!, ConvertEventHandlers.EmptyStringToNull);
+    dataBinder.BindChecked(IsAnimeCheckBox, nameof(WatchItem.IsAnime));
 
+    // These bindings do work, but are not fired until after the control looses focus
+    dataBinder.BindSelectedItem(StatusComboBox, nameof(WatchItem.Status));
+    dataBinder.BindSelectedItem(RatingComboBox, nameof(WatchItem.Rating));
+    dataBinder.BindSelectedItem(ShowTypeComboBox, nameof(WatchItem.ShowType));
+    dataBinder.BindList(TitleListBox, x => x, nameof(WatchItem.Title));
+    dataBinder.BindValue(EpisodeUpDown, nameof(WatchItem.NextEpisode));
   }
 
   /// <summary>
@@ -207,6 +222,7 @@ internal partial class MainForm : Form
         if (Properties.Settings.Default.UseEdge) source = "microsoft-edge:" + source;
 
         Process.Start(new ProcessStartInfo(source) { UseShellExecute = true });
+        WindowState = FormWindowState.Minimized;
       }
     }
     catch (Exception ex) { MsgBox.ShowError(ex); }
@@ -234,7 +250,7 @@ internal partial class MainForm : Form
     var input = InputBoxForm.GetInput();
     if (string.IsNullOrWhiteSpace(input)) return;
 
-    MsgBox.ShowInfo(Repository!.ContainsTitle(input) ? "Yes" : "No", this);
+    MsgBox.ShowInfo(Repository.ContainsTitle(input) ? "Yes" : "No", this);
   }
 
   private void CommentsTextBox_LinkClicked(object sender, LinkClickedEventArgs e)
@@ -268,7 +284,7 @@ internal partial class MainForm : Form
     if (FilterControlIsOpen) return;
 
     var fc = new FilterControl();
-    fc.Initialize(FilterByTitle);
+    fc.Initialize(TitleFilter);
     fc.RequestClose += OnFilterControlRequestClose;
     Controls.Add(fc);
     fc.Location = FilterControlLocation;
@@ -328,6 +344,7 @@ internal partial class MainForm : Form
       using (AutoResetControlDisabler.Disable(this))
       {
         Repository = await Task.Run(() => new Repository(Program.DatabaseFilePath));
+        if (Repository is null) throw new Exception("Create repository instance task return null.");
         BindingSource.DataSource = new BindingList<WatchItem>(GetFilteredItemList());
       }
 
@@ -342,8 +359,8 @@ internal partial class MainForm : Form
       // Enable the save button when ever the list of WatchItems changes.
       BindingSource.ListChanged += (s, e) => OnDataChanged();
 
-      FilterByTitle.TextChanged += (s, e) => RefreshDataSource();
-      FilterByTitle.TypeChanged += (s, e) => RefreshDataSource();
+      TitleFilter.TextChanged += (s, e) => RefreshDataSource();
+      TitleFilter.TypeChanged += (s, e) => RefreshDataSource();
 
       //EnableSpellChecking();
 
@@ -362,7 +379,7 @@ internal partial class MainForm : Form
       BindControls();
       // Attempt to restore the selection of WatchItem from previous session
       var id = Properties.Settings.Default.SelectedWatchItemId;
-      if (id != 0 && Repository!.Find(id) is WatchItem item) TitleListBox.SelectedItem = item;
+      if (id != 0 && Repository.Find(id) is WatchItem item) TitleListBox.SelectedItem = item;
     }
     catch (Exception ex)
     {
@@ -376,12 +393,12 @@ internal partial class MainForm : Form
   /// </summary>
   private List<WatchItem> GetFilteredItemList()
   {
-    if (Repository is null) throw new InvalidOperationException(nameof(Repository) + " should not be null here.");
+    //if (Repository is null) throw new InvalidOperationException(nameof(Repository) + " should not be null here.");
 
-    return (FilterByTitle.IsSet, FilterByTitle.FilterType, WatchStateFilter.AllEnabled) switch
+    return (TitleFilter.IsSet, TitleFilter.FilterType, WatchStateFilter.AllEnabled) switch
     {
-      (true, StringsWhere.Contains, _) => Repository.WhereTitleContains(FilterByTitle.Text),
-      (true, StringsWhere.StartsWith, _) => Repository.WhereTitleStartsWith(FilterByTitle.Text),
+      (true, StringsThat.Contain, _) => Repository.WhereTitleContains(TitleFilter.FilterText),
+      (true, StringsThat.StartWith, _) => Repository.WhereTitleStartsWith(TitleFilter.FilterText),
       (false, _, true) => Repository.All(),
       (false, _, false) => Repository.ItemsWhereStateIn(WatchStateFilter.EnabledWatchStateOptions),
       _ => throw new InvalidOperationException("No switch expression match.")
@@ -401,7 +418,7 @@ internal partial class MainForm : Form
     NextEpisodePanel.Enabled = (BindingSource.Current is WatchItem item && item.ShowType == ShowTypeOption.Series);
   }
 
-  private void OnDataChanged() => SaveButton.Enabled = Repository!.HasChanges;
+  private void OnDataChanged() => SaveButton.Enabled = Repository.HasChanges;
 
   /// <summary>
   /// Handles title file control request to close.
@@ -450,20 +467,17 @@ internal partial class MainForm : Form
   /// </summary>
   private void SaveChanges()
   {
-    if (Repository!.HasChanges)
+    if (Repository.HasChanges)
     {
       try
       {
-        Repository!.SaveChanges();
+        Repository.SaveChanges();
 
         // Note: This refresh is required to ensure that the titles displayed are correct for current filter.
         // If, for example, an item's state was changed it may no longer need to be displayed in the list.
         // Originally the data was always updated. Now we don't update when there is no filter in place, as all items
         // are required, regardless of their watch-state.
         if (!WatchStateFilter.AllEnabled) RefreshDataSource();
-
-
-
       }
       catch (Exception ex)
       {

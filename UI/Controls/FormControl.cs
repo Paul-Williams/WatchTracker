@@ -23,9 +23,13 @@ namespace PW.WinForms
     public event EventHandler? RequestClose;
 
     public DialogResult Result { get; private set; } = DialogResult.None;
+
     private Color AccentColor { get; }
-    private Pen AccentPen { get; } = new Pen(DwmColors.GetAccentColor(true), 1);
+    
+    private Pen AccentPen { get; }
+    
     private Rectangle BorderRectangle { get; set; }
+    
     protected void Close(DialogResult result) {
       Result = result;
       OnClose();
@@ -43,7 +47,6 @@ namespace PW.WinForms
 
       // Draw a fake border in the accent color.      
       e.Graphics.DrawRectangle(AccentPen, BorderRectangle);
-
     }
     private void FormControl_Load(object sender, EventArgs e)
     {

@@ -1,14 +1,14 @@
 ﻿namespace WatchTracker;
 
 /// <summary>
-/// Options for filtering strings
+/// String filtering options
 /// </summary>
-public enum StringsWhere
+public enum StringsThat
 {
   ///<summary>Strings where: contains.</summary>
-  Contains,
+  Contain,
 
   ///<summary>Strings where: starts with.</summary>
-  StartsWith
+  StartWith
 }
 

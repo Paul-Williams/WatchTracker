@@ -5,15 +5,18 @@ namespace WatchTracker;
 /// <summary>
 /// Settings for filtering strings.
 /// </summary>
-class StringFilterSettings
+internal class StringFilter
 {
   private string text = string.Empty;
-  private StringsWhere filterType = StringsWhere.Contains;
+  private StringsThat filterType = StringsThat.Contain;
 
   public event EventHandler? TextChanged;
   public event EventHandler? TypeChanged;
 
-  public string Text
+  /// <summary>
+  /// The string by which to filter.
+  /// </summary>
+  public string FilterText
   {
     get => text;
 
@@ -23,8 +26,10 @@ class StringFilterSettings
     }
   }
 
-
-  public StringsWhere FilterType
+  /// <summary>
+  /// The method by which to filter.
+  /// </summary>
+  public StringsThat FilterType
   {
     get => filterType;
     set
@@ -34,7 +39,7 @@ class StringFilterSettings
   }
 
 
-  public bool IsSet => !string.IsNullOrEmpty(Text);
+  public bool IsSet => !string.IsNullOrEmpty(FilterText);
 
 }
 

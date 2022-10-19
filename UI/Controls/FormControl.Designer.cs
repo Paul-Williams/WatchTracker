@@ -17,6 +17,7 @@ namespace PW.WinForms
       if (disposing && (components != null))
       {
         components.Dispose();
+        AccentPen?.Dispose();
       }
       base.Dispose(disposing);
     }
