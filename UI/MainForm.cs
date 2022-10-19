@@ -330,6 +330,13 @@ internal partial class MainForm : Form
     }
   }
 
+  private string? StringProvider(int index)
+  {
+    return (index > -1 & index < BindingSource.Count) 
+      ? ((WatchItem)BindingSource[index])?.Title 
+      : string.Empty;
+  }
+
   private async void Form_Load(object? sender, EventArgs e)
   {
     try
@@ -340,6 +347,7 @@ internal partial class MainForm : Form
       // otherwise data cause data to be re-loaded during start up.
       WatchStateFilter.FilterChanged += (s, ea) => RefreshDataSource();
 
+      TitleListBox.Tag = new OwnerDrawnListboxConfig(TitleListBox, StringProvider);
 
       using (AutoResetControlDisabler.Disable(this))
       {

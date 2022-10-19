@@ -41,6 +41,7 @@ namespace WatchTracker
       this.HaveIWatchedMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
       this.FilterByTitleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.UseEdgeCheckBox = new System.Windows.Forms.CheckBox();
       this.IsAnimeCheckBox = new System.Windows.Forms.CheckBox();
       this.NextEpisodePanel = new System.Windows.Forms.Panel();
       this.label1 = new System.Windows.Forms.Label();
@@ -67,7 +68,6 @@ namespace WatchTracker
       this.label2 = new System.Windows.Forms.Label();
       this.SourceTextBox = new WatchTracker.Controls.InterceptPasteTextBox();
       this.ToolTips = new System.Windows.Forms.ToolTip(this.components);
-      this.UseEdgeCheckBox = new System.Windows.Forms.CheckBox();
       ((System.ComponentModel.ISupportInitialize)(this.SplitContainer)).BeginInit();
       this.SplitContainer.Panel1.SuspendLayout();
       this.SplitContainer.Panel2.SuspendLayout();
@@ -83,7 +83,7 @@ namespace WatchTracker
       // 
       // SplitContainer
       // 
-      this.SplitContainer.BackColor = System.Drawing.SystemColors.ActiveCaption;
+      this.SplitContainer.BackColor = System.Drawing.SystemColors.AppWorkspace;
       this.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
       this.SplitContainer.Location = new System.Drawing.Point(0, 0);
       this.SplitContainer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -91,9 +91,10 @@ namespace WatchTracker
       // 
       // SplitContainer.Panel1
       // 
-      this.SplitContainer.Panel1.BackColor = System.Drawing.SystemColors.Control;
+      this.SplitContainer.Panel1.BackColor = System.Drawing.Color.White;
       this.SplitContainer.Panel1.Controls.Add(this.WatchStateFilter);
       this.SplitContainer.Panel1.Controls.Add(this.TitleListBox);
+      this.SplitContainer.Panel1.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
       // 
       // SplitContainer.Panel2
       // 
@@ -115,21 +116,20 @@ namespace WatchTracker
       this.SplitContainer.Panel2.Controls.Add(this.StatusComboBox);
       this.SplitContainer.Panel2.Controls.Add(this.label2);
       this.SplitContainer.Panel2.Controls.Add(this.SourceTextBox);
-      this.SplitContainer.Size = new System.Drawing.Size(944, 476);
-      this.SplitContainer.SplitterDistance = 304;
-      this.SplitContainer.SplitterWidth = 8;
+      this.SplitContainer.Size = new System.Drawing.Size(1026, 476);
+      this.SplitContainer.SplitterDistance = 278;
       this.SplitContainer.TabIndex = 0;
       // 
       // WatchStateFilter
       // 
-      this.WatchStateFilter.AnchorSize = new System.Drawing.Size(304, 21);
+      this.WatchStateFilter.AnchorSize = new System.Drawing.Size(274, 21);
       this.WatchStateFilter.BackColor = System.Drawing.Color.White;
       this.WatchStateFilter.Dock = System.Windows.Forms.DockStyle.Top;
       this.WatchStateFilter.DockSide = PW.WinForms.Controls.DropDownControl.DockSideOption.Left;
       this.WatchStateFilter.Location = new System.Drawing.Point(0, 0);
       this.WatchStateFilter.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
       this.WatchStateFilter.Name = "WatchStateFilter";
-      this.WatchStateFilter.Size = new System.Drawing.Size(304, 21);
+      this.WatchStateFilter.Size = new System.Drawing.Size(274, 21);
       this.WatchStateFilter.TabIndex = 0;
       // 
       // TitleListBox
@@ -137,18 +137,16 @@ namespace WatchTracker
       this.TitleListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-      this.TitleListBox.BackColor = System.Drawing.SystemColors.Control;
+      this.TitleListBox.BackColor = System.Drawing.Color.White;
       this.TitleListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
       this.TitleListBox.ContextMenuStrip = this.WatchItemsListContextMenu;
       this.TitleListBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
       this.TitleListBox.ForeColor = System.Drawing.Color.Black;
-      this.TitleListBox.FormattingEnabled = true;
       this.TitleListBox.IntegralHeight = false;
       this.TitleListBox.ItemHeight = 21;
       this.TitleListBox.Location = new System.Drawing.Point(0, 22);
       this.TitleListBox.Name = "TitleListBox";
-      this.TitleListBox.ScrollAlwaysVisible = true;
-      this.TitleListBox.Size = new System.Drawing.Size(303, 454);
+      this.TitleListBox.Size = new System.Drawing.Size(273, 454);
       this.TitleListBox.TabIndex = 1;
       // 
       // WatchItemsListContextMenu
@@ -198,6 +196,18 @@ namespace WatchTracker
       this.FilterByTitleToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
       this.FilterByTitleToolStripMenuItem.Text = "Filter by Title...";
       // 
+      // UseEdgeCheckBox
+      // 
+      this.UseEdgeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.UseEdgeCheckBox.AutoSize = true;
+      this.UseEdgeCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+      this.UseEdgeCheckBox.Location = new System.Drawing.Point(625, 88);
+      this.UseEdgeCheckBox.Name = "UseEdgeCheckBox";
+      this.UseEdgeCheckBox.Size = new System.Drawing.Size(89, 22);
+      this.UseEdgeCheckBox.TabIndex = 21;
+      this.UseEdgeCheckBox.Text = "Use Edge";
+      this.UseEdgeCheckBox.UseVisualStyleBackColor = true;
+      // 
       // IsAnimeCheckBox
       // 
       this.IsAnimeCheckBox.AutoSize = true;
@@ -246,7 +256,7 @@ namespace WatchTracker
       this.NewItemButtonsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
       this.NewItemButtonsPanel.Controls.Add(this.CancelNewItemButton, 1, 0);
       this.NewItemButtonsPanel.Controls.Add(this.AcceptNewItemButton, 0, 0);
-      this.NewItemButtonsPanel.Location = new System.Drawing.Point(408, 149);
+      this.NewItemButtonsPanel.Location = new System.Drawing.Point(504, 149);
       this.NewItemButtonsPanel.Name = "NewItemButtonsPanel";
       this.NewItemButtonsPanel.RowCount = 1;
       this.NewItemButtonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -283,7 +293,7 @@ namespace WatchTracker
       this.NormalModeButtonsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
       this.NormalModeButtonsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
       this.NormalModeButtonsPanel.Controls.Add(this.SaveButton, 1, 0);
-      this.NormalModeButtonsPanel.Location = new System.Drawing.Point(405, 149);
+      this.NormalModeButtonsPanel.Location = new System.Drawing.Point(501, 149);
       this.NormalModeButtonsPanel.Name = "NormalModeButtonsPanel";
       this.NormalModeButtonsPanel.RowCount = 1;
       this.NormalModeButtonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -310,7 +320,7 @@ namespace WatchTracker
       this.OpenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightGreen;
       this.OpenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
       this.OpenButton.Font = new System.Drawing.Font("Segoe UI Symbol", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-      this.OpenButton.Location = new System.Drawing.Point(529, 12);
+      this.OpenButton.Location = new System.Drawing.Point(625, 12);
       this.OpenButton.Name = "OpenButton";
       this.OpenButton.Size = new System.Drawing.Size(79, 70);
       this.OpenButton.TabIndex = 11;
@@ -327,7 +337,7 @@ namespace WatchTracker
       this.TabControl.Location = new System.Drawing.Point(14, 210);
       this.TabControl.Name = "TabControl";
       this.TabControl.SelectedIndex = 0;
-      this.TabControl.Size = new System.Drawing.Size(598, 255);
+      this.TabControl.Size = new System.Drawing.Size(694, 255);
       this.TabControl.TabIndex = 16;
       // 
       // CommentsTabPage
@@ -336,7 +346,7 @@ namespace WatchTracker
       this.CommentsTabPage.Location = new System.Drawing.Point(4, 26);
       this.CommentsTabPage.Name = "CommentsTabPage";
       this.CommentsTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.CommentsTabPage.Size = new System.Drawing.Size(590, 225);
+      this.CommentsTabPage.Size = new System.Drawing.Size(686, 225);
       this.CommentsTabPage.TabIndex = 0;
       this.CommentsTabPage.Text = "Comments";
       this.CommentsTabPage.UseVisualStyleBackColor = true;
@@ -348,7 +358,7 @@ namespace WatchTracker
       this.CommentsTextBox.Location = new System.Drawing.Point(3, 3);
       this.CommentsTextBox.Name = "CommentsTextBox";
       this.CommentsTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-      this.CommentsTextBox.Size = new System.Drawing.Size(584, 219);
+      this.CommentsTextBox.Size = new System.Drawing.Size(680, 219);
       this.CommentsTextBox.TabIndex = 4;
       this.CommentsTextBox.Text = "";
       this.CommentsTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.CommentsTextBox_LinkClicked);
@@ -359,7 +369,7 @@ namespace WatchTracker
       this.SynopsisTabPage.Location = new System.Drawing.Point(4, 24);
       this.SynopsisTabPage.Name = "SynopsisTabPage";
       this.SynopsisTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.SynopsisTabPage.Size = new System.Drawing.Size(590, 227);
+      this.SynopsisTabPage.Size = new System.Drawing.Size(692, 227);
       this.SynopsisTabPage.TabIndex = 1;
       this.SynopsisTabPage.Text = "Synopsis";
       this.SynopsisTabPage.UseVisualStyleBackColor = true;
@@ -372,7 +382,7 @@ namespace WatchTracker
       this.SynopsisTextBox.Multiline = true;
       this.SynopsisTextBox.Name = "SynopsisTextBox";
       this.SynopsisTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.SynopsisTextBox.Size = new System.Drawing.Size(584, 221);
+      this.SynopsisTextBox.Size = new System.Drawing.Size(686, 221);
       this.SynopsisTextBox.TabIndex = 6;
       // 
       // TitleTextBox
@@ -381,7 +391,7 @@ namespace WatchTracker
             | System.Windows.Forms.AnchorStyles.Right)));
       this.TitleTextBox.Location = new System.Drawing.Point(68, 12);
       this.TitleTextBox.Name = "TitleTextBox";
-      this.TitleTextBox.Size = new System.Drawing.Size(437, 25);
+      this.TitleTextBox.Size = new System.Drawing.Size(533, 25);
       this.TitleTextBox.TabIndex = 3;
       // 
       // label6
@@ -463,25 +473,14 @@ namespace WatchTracker
             | System.Windows.Forms.AnchorStyles.Right)));
       this.SourceTextBox.Location = new System.Drawing.Point(68, 57);
       this.SourceTextBox.Name = "SourceTextBox";
-      this.SourceTextBox.Size = new System.Drawing.Size(437, 25);
+      this.SourceTextBox.Size = new System.Drawing.Size(533, 25);
       this.SourceTextBox.TabIndex = 5;
-      // 
-      // UseEdgeCheckBox
-      // 
-      this.UseEdgeCheckBox.AutoSize = true;
-      this.UseEdgeCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-      this.UseEdgeCheckBox.Location = new System.Drawing.Point(530, 91);
-      this.UseEdgeCheckBox.Name = "UseEdgeCheckBox";
-      this.UseEdgeCheckBox.Size = new System.Drawing.Size(89, 22);
-      this.UseEdgeCheckBox.TabIndex = 21;
-      this.UseEdgeCheckBox.Text = "Use Edge";
-      this.UseEdgeCheckBox.UseVisualStyleBackColor = true;
       // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(944, 476);
+      this.ClientSize = new System.Drawing.Size(1026, 476);
       this.Controls.Add(this.SplitContainer);
       this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
       this.KeyPreview = true;
