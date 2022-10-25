@@ -330,11 +330,15 @@ internal partial class MainForm : Form
     }
   }
 
+  /// <summary>
+  /// Used by the owner-drawn list-box. Provides the text to be drawn for each item.
+  /// </summary>
   private string? StringProvider(int index)
   {
-    return (index > -1 & index < BindingSource.Count) 
-      ? ((WatchItem)BindingSource[index])?.Title 
-      : string.Empty;
+    //return (index > -1 & index < BindingSource.Count) 
+    //  ? ((WatchItem)BindingSource[index])?.Title 
+    //  : string.Empty;
+    return ((WatchItem)TitleListBox.Items[index]).Title;
   }
 
   private async void Form_Load(object? sender, EventArgs e)
