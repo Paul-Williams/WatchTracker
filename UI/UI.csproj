@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
+		<TargetFramework>net7.0-windows</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<RootNamespace>WatchTracker</RootNamespace>
@@ -13,11 +13,18 @@
 		<ApplicationIcon>Resources\App.ico</ApplicationIcon>
 		<NeutralLanguage>en-GB</NeutralLanguage>
 		<ErrorReport>none</ErrorReport>
-		<AssemblyVersion>2022.04.29</AssemblyVersion>		
-		<FileVersion>2022.04.29</FileVersion>
-		<Copyright>2022 Paul Williams</Copyright>
+		<AssemblyVersion>2022.10.25</AssemblyVersion>		
+		<FileVersion>2022.10.25</FileVersion>
+		<Copyright>©2022 Paul Williams</Copyright>
 		<LangVersion>preview</LangVersion>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>true</SelfContained>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<DebugType>embedded</DebugType>
+
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -39,7 +46,7 @@
 	  </PackageReference>
 	  <PackageReference Include="PropertyChanged.Fody" Version="4.0.5" PrivateAssets="All" />
 	  <PackageReference Include="PW.Common" Version="7.0.0" />
-	  <PackageReference Include="PW.WinForms" Version="1.0.0" />
+	  <PackageReference Include="PW.WinForms" Version="1.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -47,12 +54,6 @@
 			<Project>{e4e7d3dc-b53a-4543-be0f-aa65238dba7f}</Project>
 			<Name>Data</Name>
 		</ProjectReference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Reference Include="PW.WinForms">
-	    <HintPath>C:\tfs\Class Libraries\PW.WinForms\WinForms\bin\Release\PW.WinForms.dll</HintPath>
-	  </Reference>
 	</ItemGroup>
 
 	<ItemGroup>

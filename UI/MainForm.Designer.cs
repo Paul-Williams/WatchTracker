@@ -266,6 +266,7 @@ namespace WatchTracker
       // 
       // CancelNewItemButton
       // 
+      this.CancelNewItemButton.BackColor = System.Drawing.SystemColors.ButtonFace;
       this.CancelNewItemButton.Dock = System.Windows.Forms.DockStyle.Fill;
       this.CancelNewItemButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
       this.CancelNewItemButton.Location = new System.Drawing.Point(103, 3);
@@ -273,10 +274,11 @@ namespace WatchTracker
       this.CancelNewItemButton.Size = new System.Drawing.Size(94, 49);
       this.CancelNewItemButton.TabIndex = 15;
       this.CancelNewItemButton.Text = "Cancel";
-      this.CancelNewItemButton.UseVisualStyleBackColor = true;
+      this.CancelNewItemButton.UseVisualStyleBackColor = false;
       // 
       // AcceptNewItemButton
       // 
+      this.AcceptNewItemButton.BackColor = System.Drawing.SystemColors.ButtonFace;
       this.AcceptNewItemButton.Dock = System.Windows.Forms.DockStyle.Fill;
       this.AcceptNewItemButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
       this.AcceptNewItemButton.Location = new System.Drawing.Point(3, 3);
@@ -284,7 +286,7 @@ namespace WatchTracker
       this.AcceptNewItemButton.Size = new System.Drawing.Size(94, 49);
       this.AcceptNewItemButton.TabIndex = 14;
       this.AcceptNewItemButton.Text = "Accept";
-      this.AcceptNewItemButton.UseVisualStyleBackColor = true;
+      this.AcceptNewItemButton.UseVisualStyleBackColor = false;
       // 
       // NormalModeButtonsPanel
       // 
@@ -303,6 +305,7 @@ namespace WatchTracker
       // SaveButton
       // 
       this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.SaveButton.BackColor = System.Drawing.SystemColors.ButtonFace;
       this.SaveButton.Enabled = false;
       this.SaveButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
       this.SaveButton.Location = new System.Drawing.Point(103, 3);
@@ -310,16 +313,16 @@ namespace WatchTracker
       this.SaveButton.Size = new System.Drawing.Size(94, 49);
       this.SaveButton.TabIndex = 18;
       this.SaveButton.Text = "Save";
-      this.SaveButton.UseVisualStyleBackColor = true;
+      this.SaveButton.UseVisualStyleBackColor = false;
       // 
       // OpenButton
       // 
       this.OpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.OpenButton.BackColor = System.Drawing.Color.DarkSeaGreen;
+      this.OpenButton.BackColor = System.Drawing.SystemColors.ButtonFace;
       this.OpenButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.ForestGreen;
       this.OpenButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.LightGreen;
-      this.OpenButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.OpenButton.Font = new System.Drawing.Font("Segoe UI Symbol", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.OpenButton.Font = new System.Drawing.Font("Segoe UI Symbol", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.OpenButton.ForeColor = System.Drawing.Color.Green;
       this.OpenButton.Location = new System.Drawing.Point(625, 12);
       this.OpenButton.Name = "OpenButton";
       this.OpenButton.Size = new System.Drawing.Size(79, 70);
@@ -369,7 +372,7 @@ namespace WatchTracker
       this.SynopsisTabPage.Location = new System.Drawing.Point(4, 24);
       this.SynopsisTabPage.Name = "SynopsisTabPage";
       this.SynopsisTabPage.Padding = new System.Windows.Forms.Padding(3);
-      this.SynopsisTabPage.Size = new System.Drawing.Size(692, 227);
+      this.SynopsisTabPage.Size = new System.Drawing.Size(686, 227);
       this.SynopsisTabPage.TabIndex = 1;
       this.SynopsisTabPage.Text = "Synopsis";
       this.SynopsisTabPage.UseVisualStyleBackColor = true;
@@ -382,7 +385,7 @@ namespace WatchTracker
       this.SynopsisTextBox.Multiline = true;
       this.SynopsisTextBox.Name = "SynopsisTextBox";
       this.SynopsisTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.SynopsisTextBox.Size = new System.Drawing.Size(686, 221);
+      this.SynopsisTextBox.Size = new System.Drawing.Size(680, 221);
       this.SynopsisTextBox.TabIndex = 6;
       // 
       // TitleTextBox
